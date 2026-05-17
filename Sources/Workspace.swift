@@ -7910,6 +7910,8 @@ final class Workspace: Identifiable, ObservableObject {
                 }
             }
         }
+        layoutFollowUpObservers.forEach { NotificationCenter.default.removeObserver($0) }
+        layoutFollowUpObservers.removeAll()
         activeRemoteSessionControllerID = nil
         remoteSessionController?.stop()
     }
