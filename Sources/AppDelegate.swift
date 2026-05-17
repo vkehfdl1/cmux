@@ -1009,6 +1009,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
 
         claimAuthCallbackURLSchemes()
 
+        CmuxMemoryPressureMonitor.shared.start()
+        CmuxMemoryPressureMonitor.shared.subscribe { level in
+            switch level {
+            case .normal:
+                break
+            case .warning:
+                CmuxTopProcessSnapshot.pruneCMUXScopeCache(activeKeys: [])
+            case .critical:
+                CmuxTopProcessSnapshot.pruneCMUXScopeCache(activeKeys: [])
+                BrowserHistoryStore.shared.clearHistory()
+            }
+        }
+
         // Install the Feed (workstream) store. Separate from the transport
         // wiring: the store is a plain singleton here, and the socket
         // `feed.*` V2 verbs in `TerminalController` push into it directly

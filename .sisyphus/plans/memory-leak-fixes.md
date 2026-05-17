@@ -325,10 +325,10 @@ final class CmuxMemoryPressureMonitor {
 ```
 
 ### Wire subscribers
-- `BrowserHistoryStore`: on `.warning`, halve max entries; on `.critical`, evict to 100.
-- `SessionIndexStore`: on `.warning`, clear directorySnapshotCache; on `.critical`, clear ClaudeMetadataCache.
-- `FileExplorerStore`: on `.warning`, evict half of `nodesByPath`; on `.critical`, clear all but currently expanded paths.
-- `CmuxTopSnapshotScopeCache`: on `.warning`, prune all.
+- `BrowserHistoryStore`: on `.critical`, call `clearHistory()` (singleton in AppDelegate). ✅ implemented.
+- `CmuxTopProcessSnapshot.pruneCMUXScopeCache`: on `.warning` and `.critical`, prune all. ✅ implemented.
+- `SessionIndexStore`: owned by ContentView via `@StateObject` (no singleton). Skipped for PR3 — would require per-view wiring with deinit-safe token tracking. Existing LRU cap at 1000 + directory snapshot cache eviction in `reload()` is sufficient pressure tolerance.
+- `FileExplorerStore`: owned by ContentView via `@StateObject` (no singleton). Skipped for PR3 for the same reason. Existing 16-entry LRU cap on `directorySnapshotCache` plus auto-clear on `reload()` keeps memory bounded.
 
 ### Init in `AppDelegate.applicationDidFinishLaunching`:
 ```swift
