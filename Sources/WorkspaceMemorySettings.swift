@@ -2,7 +2,7 @@ import Foundation
 
 enum WorkspaceMemorySettings {
     static let aggressiveCleanupOnTeardownKey = "workspaceAggressiveCleanupOnTeardown"
-    static let aggressiveCleanupOnTeardownDefault = false
+    static let aggressiveCleanupOnTeardownDefault = true
 
     static var aggressiveCleanupOnTeardown: Bool {
         let defaults = UserDefaults.standard

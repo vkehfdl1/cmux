@@ -47,7 +47,7 @@ sanitize_path() {
 tag_slug="$(sanitize_path "$CMUX_TAG")"
 tag_bundle_id="$(sanitize_bundle "$CMUX_TAG")"
 
-socket_path="/tmp/cmux-debug-${tag_slug}.sock"
+socket_path="/tmp/kyumux-debug-${tag_slug}.sock"
 if [[ ! -S "$socket_path" ]]; then
   cat >&2 <<EOF
 Tagged cmux socket not found:
@@ -59,7 +59,7 @@ EOF
   exit 1
 fi
 
-cli_path="${HOME}/Library/Developer/Xcode/DerivedData/cmux-${tag_slug}/Build/Products/Debug/cmux DEV ${tag_slug}.app/Contents/Resources/bin/cmux"
+cli_path="${HOME}/Library/Developer/Xcode/DerivedData/kyumux-${tag_slug}/Build/Products/Debug/Kyu-mux DEV ${tag_slug}.app/Contents/Resources/bin/cmux"
 if [[ ! -x "$cli_path" ]]; then
   cat >&2 <<EOF
 Tagged cmux CLI not found:
@@ -81,6 +81,6 @@ unset CMUXD_UNIX_PATH
 unset CMUX_DEBUG_LOG
 export CMUX_SOCKET_PATH="$socket_path"
 export CMUX_TAG="$tag_slug"
-export CMUX_BUNDLE_ID="com.cmuxterm.app.debug.${tag_bundle_id}"
+export CMUX_BUNDLE_ID="com.kyumux.app.debug.${tag_bundle_id}"
 export CMUX_BUNDLED_CLI_PATH="$cli_path"
 exec "$cli_path" "$@"

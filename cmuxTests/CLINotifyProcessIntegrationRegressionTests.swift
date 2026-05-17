@@ -360,7 +360,7 @@ final class CLINotifyProcessIntegrationRegressionTests: XCTestCase {
 
     func testRightSidebarInvalidCommandValidatesBeforeTargetResolution() throws {
         let cliPath = try bundledCLIPath()
-        let missingSocketPath = "/tmp/cmux-test-missing-\(UUID().uuidString).sock"
+        let missingSocketPath = "/tmp/kyumux-test-missing-\(UUID().uuidString).sock"
         var environment = ProcessInfo.processInfo.environment
         environment["CMUX_SOCKET_PATH"] = missingSocketPath
         environment["CMUX_CLI_SENTRY_DISABLED"] = "1"
@@ -381,7 +381,7 @@ final class CLINotifyProcessIntegrationRegressionTests: XCTestCase {
 
     func testRightSidebarInvalidSetModeValidatesBeforeTargetResolution() throws {
         let cliPath = try bundledCLIPath()
-        let missingSocketPath = "/tmp/cmux-test-missing-\(UUID().uuidString).sock"
+        let missingSocketPath = "/tmp/kyumux-test-missing-\(UUID().uuidString).sock"
         var environment = ProcessInfo.processInfo.environment
         environment["CMUX_SOCKET_PATH"] = missingSocketPath
         environment["CMUX_CLI_SENTRY_DISABLED"] = "1"

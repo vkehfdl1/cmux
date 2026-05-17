@@ -36,7 +36,7 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>NSDockTilePlugIn</key>
-	<string>CmuxDockTilePlugin.plugin</string>
+	<string>KyumuxDockTilePlugin.plugin</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.developer-tools</string>
 	<key>NSHumanReadableCopyright</key>
@@ -84,7 +84,7 @@
 	<key>NSAppleScriptEnabled</key>
 	<true/>
 	<key>OSAScriptingDefinition</key>
-	<string>cmux.sdef</string>
+	<string>kyumux.sdef</string>
 	<key>NSServices</key>
 	<array>
 		<dict>
@@ -140,7 +140,7 @@
 		</dict>
 		<dict>
 			<key>UTTypeIdentifier</key>
-			<string>com.cmux.sidebar-tab-reorder</string>
+			<string>com.kyumux.sidebar-tab-reorder</string>
 			<key>UTTypeDescription</key>
 			<string>cmux Sidebar Tab Reorder</string>
 			<key>UTTypeConformsTo</key>
@@ -150,7 +150,7 @@
 		</dict>
 		<dict>
 			<key>UTTypeIdentifier</key>
-			<string>com.cmux.filepreview.transfer</string>
+			<string>com.kyumux.filepreview.transfer</string>
 			<key>UTTypeDescription</key>
 			<string>cmux File Preview Transfer</string>
 			<key>UTTypeConformsTo</key>
@@ -165,7 +165,7 @@
 		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>cmux-loopback.localtest.me</key>
+			<key>kyumux-loopback.localtest.me</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
@@ -177,14 +177,10 @@
 	<key>SUAutomaticallyUpdate</key>
 	<false/>
 	<key>SUEnableAutomaticChecks</key>
-	<true/>
-	<key>SUFeedURL</key>
-	<string>https://github.com/manaflow-ai/cmux/releases/latest/download/appcast.xml</string>
+	<false/>
 	<key>SUScheduledCheckInterval</key>
-	<integer>86400</integer>
+	<integer>0</integer>
 	<key>SUSendProfileInfo</key>
 	<false/>
-	<key>SUPublicEDKey</key>
-	<string>$(SPARKLE_PUBLIC_KEY)</string>
 </dict>
 </plist>

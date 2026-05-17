@@ -26,8 +26,8 @@ final class WorkspaceSplitStartupCommandTests: XCTestCase {
             return
         }
 
-        let requestedDirectory = "/tmp/cmux-split-startup-\(UUID().uuidString)"
-        let startupCommand = "/tmp/cmux-tmux-command-\(UUID().uuidString).sh"
+        let requestedDirectory = "/tmp/kyumux-split-startup-\(UUID().uuidString)"
+        let startupCommand = "/tmp/kyumux-tmux-command-\(UUID().uuidString).sh"
         let tmuxStartCommand = "node /opt/oh-my-codex/dist/omx.js hud --watch"
         let initialDividerPosition = 0.875
         guard let splitPanelId = manager.newSplit(
@@ -79,8 +79,8 @@ final class WorkspaceSplitStartupCommandTests: XCTestCase {
             return
         }
 
-        let requestedDirectory = "/tmp/cmux-surface-startup-\(UUID().uuidString)"
-        let startupCommand = "/tmp/cmux-surface-command-\(UUID().uuidString).sh"
+        let requestedDirectory = "/tmp/kyumux-surface-startup-\(UUID().uuidString)"
+        let startupCommand = "/tmp/kyumux-surface-command-\(UUID().uuidString).sh"
         let tmuxStartCommand = "node /opt/oh-my-codex/dist/omx.js hud --watch"
         guard let surface = workspace.newTerminalSurface(
             inPane: paneId,
@@ -101,8 +101,8 @@ final class WorkspaceSplitStartupCommandTests: XCTestCase {
     func testSessionRestoreRelaunchesOMXHudTmuxStartCommand() throws {
         let workspace = Workspace()
         let sourcePanelId = try XCTUnwrap(workspace.focusedPanelId)
-        let requestedDirectory = "/tmp/cmux-hud-restore-\(UUID().uuidString)"
-        let originalStartupScript = "/tmp/cmux-tmux-command-\(UUID().uuidString).sh"
+        let requestedDirectory = "/tmp/kyumux-hud-restore-\(UUID().uuidString)"
+        let originalStartupScript = "/tmp/kyumux-tmux-command-\(UUID().uuidString).sh"
         let tmuxStartCommand = "env OMX_SESSION_ID=omx-test node '/opt/oh-my-codex/dist/cli/omx.js' hud --watch"
         let hudPanel = try XCTUnwrap(workspace.newTerminalSplit(
             from: sourcePanelId,
@@ -144,7 +144,7 @@ final class WorkspaceSplitStartupCommandTests: XCTestCase {
         let panel = try XCTUnwrap(workspace.newTerminalSurface(
             inPane: paneId,
             focus: false,
-            initialCommand: "/tmp/cmux-command-\(UUID().uuidString).sh",
+            initialCommand: "/tmp/kyumux-command-\(UUID().uuidString).sh",
             tmuxStartCommand: genericCommand
         ))
 

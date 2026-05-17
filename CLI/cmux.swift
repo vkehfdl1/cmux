@@ -444,7 +444,7 @@ private struct ClaudeHookSessionStoreFile: Codable {
 }
 
 private final class ClaudeHookSessionStore {
-    private static let defaultStatePath = "~/.cmuxterm/claude-hook-sessions.json"
+    private static let defaultStatePath = "~/.kyumuxterm/claude-hook-sessions.json"
     private static let maxStateAgeSeconds: TimeInterval = 60 * 60 * 24 * 7
 
     private let statePath: String
@@ -776,7 +776,7 @@ private enum TopTextFormat: Equatable {
 }
 
 enum SocketPasswordResolver {
-    private static let service = "com.cmuxterm.app.socket-control"
+    private static let service = "com.kyumux.app.socket-control"
     private static let account = "local-socket-password"
     private static let directoryName = "cmux"
     private static let fileName = "socket-control-password"
@@ -908,12 +908,12 @@ private enum CLISocketPathSource {
 
 private enum CLISocketPathResolver {
     private static let appSupportDirectoryName = "cmux"
-    private static let stableSocketFileName = "cmux.sock"
+    private static let stableSocketFileName = "kyumux.sock"
     private static let lastSocketPathFileName = "last-socket-path"
-    static let legacyDefaultSocketPath = "/tmp/cmux.sock"
-    private static let fallbackSocketPath = "/tmp/cmux-debug.sock"
-    private static let stagingSocketPath = "/tmp/cmux-staging.sock"
-    private static let legacyLastSocketPathFile = "/tmp/cmux-last-socket-path"
+    static let legacyDefaultSocketPath = "/tmp/kyumux.sock"
+    private static let fallbackSocketPath = "/tmp/kyumux-debug.sock"
+    private static let stagingSocketPath = "/tmp/kyumux-staging.sock"
+    private static let legacyLastSocketPathFile = "/tmp/kyumux-last-socket-path"
 
     static var defaultSocketPath: String {
         let stablePath: String? = stableSocketDirectoryURL()?
@@ -955,8 +955,8 @@ private enum CLISocketPathResolver {
 
         if let tag = normalized(environment["CMUX_TAG"]) {
             let slug = sanitizeTagSlug(tag)
-            candidates.append("/tmp/cmux-debug-\(slug).sock")
-            candidates.append("/tmp/cmux-\(slug).sock")
+            candidates.append("/tmp/kyumux-debug-\(slug).sock")
+            candidates.append("/tmp/kyumux-\(slug).sock")
         }
 
         candidates.append(requestedPath)
@@ -1980,7 +1980,7 @@ final class SocketClient {
 struct CMUXCLI {
     let args: [String]
 
-    private static let debugLastSocketHintPath = "/tmp/cmux-last-socket-path"
+    private static let debugLastSocketHintPath = "/tmp/kyumux-last-socket-path"
     private static let vmCreateIdempotencyTTLSeconds: TimeInterval = 10 * 60
     private static let vmCreateResponseTimeoutSeconds: TimeInterval = 16 * 60
     private static let vmAttachResponseTimeoutSeconds: TimeInterval = 16 * 60
@@ -2138,7 +2138,7 @@ struct CMUXCLI {
             return nil
         }
         guard let hinted = normalizedEnvValue(raw),
-              hinted.hasPrefix("/tmp/cmux-debug"),
+              hinted.hasPrefix("/tmp/kyumux-debug"),
               hinted.hasSuffix(".sock"),
               pathIsSocket(hinted) else {
             return nil
@@ -2157,14 +2157,14 @@ struct CMUXCLI {
         if let hinted = debugSocketPathFromHintFile() {
             return hinted
         }
-        return "/tmp/cmux-debug.sock"
+        return "/tmp/kyumux-debug.sock"
 #else
-        return "/tmp/cmux.sock"
+        return "/tmp/kyumux.sock"
 #endif
     }
 
     private static let browserDisabledDefaultsKey = "browserDisabledOverride"
-    private static let defaultBrowserSettingsDomain = "com.cmuxterm.app"
+    private static let defaultBrowserSettingsDomain = "com.kyumux.app"
 
     private static func currentExecutableURL() -> URL? {
         var size: UInt32 = 0
@@ -5823,7 +5823,7 @@ struct CMUXCLI {
             "cmux_ssh_preflight_control_path() {",
             #"  cmux_ssh_control_path="$(command \#(sshPrefix) -G \#(destination) 2>/dev/null | awk 'tolower($1) == "controlpath" { $1 = ""; sub(/^[[:space:]]+/, ""); print; exit }')" "#,
             "  case \"${cmux_ssh_control_path:-}\" in",
-            "    /tmp/cmux-ssh-*|\"$HOME\"/.cmux/control/*)",
+            "    /tmp/kyumux-ssh-*|\"$HOME\"/.cmux/control/*)",
             "      if ! command \(sshPrefix) -S \"$cmux_ssh_control_path\" -O check \(destination) >/dev/null 2>&1; then",
             "        rm -f -- \"$cmux_ssh_control_path\" 2>/dev/null || true",
             "      fi",
@@ -7381,7 +7381,7 @@ struct CMUXCLI {
             .replacingOccurrences(of: "\"", with: "\\\"")
         return [
             "cmux_ssh_log_path=\"\";",
-            "if [ -r /tmp/cmux-last-debug-log-path ]; then cmux_ssh_log_path=\"$(tr -d '\\r\\n' < /tmp/cmux-last-debug-log-path 2>/dev/null || true)\"; fi;",
+            "if [ -r /tmp/kyumux-last-debug-log-path ]; then cmux_ssh_log_path=\"$(tr -d '\\r\\n' < /tmp/kyumux-last-debug-log-path 2>/dev/null || true)\"; fi;",
             "if [ -n \"$cmux_ssh_log_path\" ]; then",
             "cmux_ssh_ts=\"$(python3 -c 'from datetime import datetime, timezone; print(datetime.now(timezone.utc).isoformat(timespec=\"milliseconds\").replace(\"+00:00\", \"Z\"))' 2>/dev/null || date -u +%Y-%m-%dT%H:%M:%SZ)\";",
             "printf '%s [cmux-cli] cli.ssh.handshake target=\(escapedTarget) relayPort=\(relayPort) stage=ssh.connected workspace=%s surface=%s\\n' \"$cmux_ssh_ts\" \"${CMUX_WORKSPACE_ID:-nil}\" \"${CMUX_SURFACE_ID:-nil}\" >> \"$cmux_ssh_log_path\";",
@@ -7416,9 +7416,9 @@ struct CMUXCLI {
 
     private func defaultSSHControlPathTemplate(remoteRelayPort: Int? = nil) -> String {
         if let remoteRelayPort, remoteRelayPort > 0 {
-            return "/tmp/cmux-ssh-\(getuid())-\(remoteRelayPort)-%C"
+            return "/tmp/kyumux-ssh-\(getuid())-\(remoteRelayPort)-%C"
         }
-        return "/tmp/cmux-ssh-\(getuid())-%C"
+        return "/tmp/kyumux-ssh-\(getuid())-%C"
     }
 
     private func normalizedSSHIdentityPath(_ rawPath: String?) -> String? {
@@ -7491,7 +7491,7 @@ struct CMUXCLI {
             if let trimmedExplicit, !trimmedExplicit.isEmpty {
                 return trimmedExplicit
             }
-            guard let marker = try? String(contentsOfFile: "/tmp/cmux-last-debug-log-path", encoding: .utf8) else {
+            guard let marker = try? String(contentsOfFile: "/tmp/kyumux-last-debug-log-path", encoding: .utf8) else {
                 return nil
             }
             let trimmedMarker = marker.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -10142,7 +10142,7 @@ struct CMUXCLI {
             Usage: cmux reload-config
 
             Run the same configuration reload as the Reload Configuration shortcut.
-            This reloads Ghostty config, re-reads ~/.config/cmux/cmux.json, and refreshes terminals.
+            This reloads Ghostty config, re-reads ~/.config/kyumux/cmux.json, and refreshes terminals.
 
             Example:
               cmux reload-config
@@ -16217,7 +16217,7 @@ struct CMUXCLI {
     private func tmuxWaitForSignalURL(name: String) -> URL {
         let allowed = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "._-"))
         let sanitized = name.unicodeScalars.map { allowed.contains($0) ? Character($0) : "_" }
-        return URL(fileURLWithPath: "/tmp/cmux-wait-for-\(String(sanitized)).sig")
+        return URL(fileURLWithPath: "/tmp/kyumux-wait-for-\(String(sanitized)).sig")
     }
 
     private func runTmuxCompatCommand(
@@ -19200,7 +19200,7 @@ struct CMUXCLI {
     private func agentHookStatePath(sessionStoreSuffix: String, env: [String: String]) -> String {
         let filename = "\(sessionStoreSuffix)-hook-sessions.json"
         guard let overrideDirectory = normalizedHookValue(env["CMUX_AGENT_HOOK_STATE_DIR"]) else {
-            return "~/.cmuxterm/\(filename)"
+            return "~/.kyumuxterm/\(filename)"
         }
         return URL(fileURLWithPath: NSString(string: overrideDirectory).expandingTildeInPath, isDirectory: true)
             .appendingPathComponent(filename, isDirectory: false)
@@ -24116,7 +24116,7 @@ export default function cmuxPiSessionExtension(pi: ExtensionAPI) {
           Back up any existing cmux.json file to a timestamped .bak copy before editing.
           Use printed curl commands to fetch the latest docs/schema, and prefer Ghostty config for terminal behavior Ghostty already supports.
           Ghostty config lives at ~/.config/ghostty/config (controls terminal transparency, blur, font, theme, keybinds, etc.).
-          `cmux reload-config` reloads BOTH Ghostty config and ~/.config/cmux/cmux.json and refreshes terminals in place. No app restart needed.
+          `cmux reload-config` reloads BOTH Ghostty config and ~/.config/kyumux/cmux.json and refreshes terminals in place. No app restart needed.
 
         Commands:
           welcome
@@ -24280,7 +24280,7 @@ export default function cmuxPiSessionExtension(pi: ExtensionAPI) {
           CMUX_TAB_ID         Optional alias used by `tab-action`/`rename-tab` as default --tab.
           CMUX_SURFACE_ID     Auto-set in cmux terminals. Used as default --surface.
           CMUX_SOCKET_PATH    Override the Unix socket path. Without this, the CLI defaults
-                              to ~/Library/Application Support/cmux/cmux.sock and auto-discovers tagged/debug sockets.
+                              to ~/Library/Application Support/kyumux/kyumux.sock and auto-discovers tagged/debug sockets.
         """
     }
 

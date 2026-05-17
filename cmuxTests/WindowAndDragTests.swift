@@ -459,7 +459,7 @@ final class AppDelegateLaunchServicesRegistrationTests: XCTestCase {
         var registerCallCount = 0
 
         app.scheduleLaunchServicesBundleRegistrationForTesting(
-            bundleURL: URL(fileURLWithPath: "/tmp/../tmp/cmux-launch-services-test.app"),
+            bundleURL: URL(fileURLWithPath: "/tmp/../tmp/kyumux-launch-services-test.app"),
             scheduler: { work in
                 scheduledWork = work
             },
@@ -601,7 +601,7 @@ final class InternalTabDragBundleDeclarationTests: XCTestCase {
             "Expected app bundle to export bonsplit tab-transfer type, got \(exported)"
         )
         XCTAssertTrue(
-            exported.contains("com.cmux.sidebar-tab-reorder"),
+            exported.contains("com.kyumux.sidebar-tab-reorder"),
             "Expected app bundle to export sidebar tab-reorder type, got \(exported)"
         )
     }
@@ -2549,7 +2549,7 @@ final class FilePreviewPanelTextSavingTests: XCTestCase {
     }
 
     func testExternalOpenApplicationResolverOrdersDefaultAppFirstAndDeduplicates() {
-        let fileURL = URL(fileURLWithPath: "/tmp/cmux-sample.mov")
+        let fileURL = URL(fileURLWithPath: "/tmp/kyumux-sample.mov")
         let quickTimeURL = URL(fileURLWithPath: "/Applications/QuickTime Player.app")
         let vlcURL = URL(fileURLWithPath: "/Applications/VLC.app")
         let names = [
@@ -2570,7 +2570,7 @@ final class FilePreviewPanelTextSavingTests: XCTestCase {
     }
 
     func testExternalOpenApplicationResolverFallsBackWhenDefaultAppIsFiltered() {
-        let fileURL = URL(fileURLWithPath: "/tmp/cmux-sample.pdf")
+        let fileURL = URL(fileURLWithPath: "/tmp/kyumux-sample.pdf")
         let cmuxURL = URL(fileURLWithPath: "/Applications/cmux.app")
         let previewURL = URL(fileURLWithPath: "/System/Applications/Preview.app")
         let resolver = FileExternalOpenApplicationResolver(

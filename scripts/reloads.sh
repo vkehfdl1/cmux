@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-APP_NAME="cmux STAGING"
-BUNDLE_ID="com.cmuxterm.app.staging"
-BASE_APP_NAME="cmux"
+APP_NAME="Kyu-mux STAGING"
+BUNDLE_ID="com.kyumux.app.staging"
+BASE_APP_NAME="Kyu-mux"
 DERIVED_DATA=""
 NAME_SET=0
 BUNDLE_SET=0
@@ -16,14 +16,14 @@ write_last_socket_path() {
   local socket_path="$1"
   mkdir -p "$LAST_SOCKET_PATH_DIR"
   echo "$socket_path" > "$LAST_SOCKET_PATH_FILE" || true
-  echo "$socket_path" > /tmp/cmux-last-socket-path || true
+  echo "$socket_path" > /tmp/kyumux-last-socket-path || true
 }
 
 usage() {
   cat <<'EOF'
 Usage: ./scripts/reloads.sh [options]
 
-Release build with isolated "cmux STAGING" identity. Runs side-by-side with
+Release build with isolated "Kyu-mux STAGING" identity. Runs side-by-side with
 the production cmux app.
 
 Options:
@@ -109,13 +109,13 @@ if [[ -n "$TAG" ]]; then
   TAG_ID="$(sanitize_bundle "$TAG")"
   TAG_SLUG="$(sanitize_path "$TAG")"
   if [[ "$NAME_SET" -eq 0 ]]; then
-    APP_NAME="cmux STAGING ${TAG}"
+    APP_NAME="Kyu-mux STAGING ${TAG}"
   fi
   if [[ "$BUNDLE_SET" -eq 0 ]]; then
-    BUNDLE_ID="com.cmuxterm.app.staging.${TAG_ID}"
+    BUNDLE_ID="com.kyumux.app.staging.${TAG_ID}"
   fi
   if [[ "$DERIVED_SET" -eq 0 ]]; then
-    DERIVED_DATA="/tmp/cmux-staging-${TAG_SLUG}"
+    DERIVED_DATA="/tmp/kyumux-staging-${TAG_SLUG}"
   fi
 fi
 
@@ -198,8 +198,8 @@ if [[ -f "$INFO_PLIST" ]]; then
   # (which defaults to the per-user stable socket) uses isolated sockets instead.
   STAGING_SLUG="${TAG_SLUG:-staging}"
   APP_SUPPORT_DIR="$HOME/Library/Application Support/cmux"
-  CMUXD_SOCKET="${APP_SUPPORT_DIR}/cmuxd-${STAGING_SLUG}.sock"
-  CMUX_SOCKET_PATH_VALUE="/tmp/cmux-${STAGING_SLUG}.sock"
+  CMUXD_SOCKET="${APP_SUPPORT_DIR}/kyumuxd-${STAGING_SLUG}.sock"
+  CMUX_SOCKET_PATH_VALUE="/tmp/kyumux-${STAGING_SLUG}.sock"
   write_last_socket_path "$CMUX_SOCKET_PATH_VALUE"
   /usr/libexec/PlistBuddy -c "Add :LSEnvironment dict" "$INFO_PLIST" 2>/dev/null || true
   /usr/libexec/PlistBuddy -c "Set :LSEnvironment:CMUXD_UNIX_PATH \"${CMUXD_SOCKET}\"" "$INFO_PLIST" 2>/dev/null \

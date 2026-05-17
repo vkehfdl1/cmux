@@ -44,14 +44,14 @@ class CmuxPerfRunner:
         self.tag = args.tag
         self.tag_slug = sanitize_path(args.tag)
         self.tag_id = sanitize_bundle(args.tag)
-        self.socket_path = pathlib.Path(f"/tmp/cmux-debug-{self.tag_slug}.sock")
+        self.socket_path = pathlib.Path(f"/tmp/kyumux-debug-{self.tag_slug}.sock")
         self.cmuxd_socket_path = pathlib.Path(
-            os.path.expanduser(f"~/Library/Application Support/cmux/cmuxd-dev-{self.tag_slug}.sock")
+            os.path.expanduser(f"~/Library/Application Support/cmux/kyumuxd-dev-{self.tag_slug}.sock")
         )
-        self.debug_log_path = pathlib.Path(f"/tmp/cmux-debug-{self.tag_slug}.log")
-        self.stdout_path = pathlib.Path(f"/tmp/cmux-perf-{self.tag_slug}-stdout.log")
+        self.debug_log_path = pathlib.Path(f"/tmp/kyumux-debug-{self.tag_slug}.log")
+        self.stdout_path = pathlib.Path(f"/tmp/kyumux-perf-{self.tag_slug}-stdout.log")
         self.app_path = pathlib.Path(args.app_path).expanduser() if args.app_path else self.default_app_path()
-        self.binary_path = self.app_path / "Contents/MacOS/cmux DEV"
+        self.binary_path = self.app_path / "Contents/MacOS/Kyu-mux DEV"
         self.cli_path = self.app_path / "Contents/Resources/bin/cmux"
         self.fixture_root = self.make_fixture_root(args.fixture_root)
         self.proc: subprocess.Popen | None = None
@@ -76,8 +76,8 @@ class CmuxPerfRunner:
 
     def default_app_path(self) -> pathlib.Path:
         return pathlib.Path.home() / (
-            f"Library/Developer/Xcode/DerivedData/cmux-{self.tag_slug}/"
-            f"Build/Products/Debug/cmux DEV {self.tag_slug}.app"
+            f"Library/Developer/Xcode/DerivedData/kyumux-{self.tag_slug}/"
+            f"Build/Products/Debug/Kyu-mux DEV {self.tag_slug}.app"
         )
 
     def check_paths(self) -> None:
@@ -88,7 +88,7 @@ class CmuxPerfRunner:
 
     def clean_persisted_state(self) -> None:
         app_support = pathlib.Path.home() / "Library/Application Support/cmux"
-        bundle_id = f"com.cmuxterm.app.debug.{self.tag_id}"
+        bundle_id = f"com.kyumux.app.debug.{self.tag_id}"
         for suffix in ("", "-previous"):
             (app_support / f"session-{bundle_id}{suffix}.json").unlink(missing_ok=True)
         self.socket_path.unlink(missing_ok=True)
@@ -187,7 +187,7 @@ class CmuxPerfRunner:
                 proc.kill()
                 proc.wait(timeout=5)
         subprocess.run(
-            ["pkill", "-f", re.escape(f"cmux DEV {self.tag_slug}.app/Contents/MacOS/cmux DEV")],
+            ["pkill", "-f", re.escape(f"Kyu-mux DEV {self.tag_slug}.app/Contents/MacOS/Kyu-mux DEV")],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
             check=False,

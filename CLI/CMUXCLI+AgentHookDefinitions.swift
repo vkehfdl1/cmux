@@ -11,7 +11,7 @@ extension CMUXCLI {
         let configDir: String       // Relative to ~: ".cursor", ".gemini"
         let configFile: String      // File name: "hooks.json", "settings.json"
         let configDirEnvOverride: String? // e.g. "CODEX_HOME" overrides configDir
-        let sessionStoreSuffix: String // e.g. "cursor" -> ~/.cmuxterm/cursor-hook-sessions.json
+        let sessionStoreSuffix: String // e.g. "cursor" -> ~/.kyumuxterm/cursor-hook-sessions.json
         let disableEnvVar: String   // e.g. "CMUX_CURSOR_HOOKS_DISABLED"
         let hookMarker: String      // Marker in commands: "cmux hooks cursor"
         let binaryName: String

@@ -75,9 +75,9 @@ extension CLINotifyProcessIntegrationRegressionTests {
                 agent: "copilot",
                 subcommand: "session-start",
                 sessionId: "copilot-session-123",
-                executable: "/tmp/cmux-agent-upstreams/copilot-install/bin/copilot",
+                executable: "/tmp/kyumux-agent-upstreams/copilot-install/bin/copilot",
                 launchArguments: [
-                    "/tmp/cmux-agent-upstreams/copilot-install/bin/copilot",
+                    "/tmp/kyumux-agent-upstreams/copilot-install/bin/copilot",
                     "--model",
                     "gpt-5.4",
                     "--resume=old-session",
@@ -91,7 +91,7 @@ extension CLINotifyProcessIntegrationRegressionTests {
                     "COPILOT_GITHUB_TOKEN": "secret"
                 ],
                 expectedArguments: [
-                    "/tmp/cmux-agent-upstreams/copilot-install/bin/copilot",
+                    "/tmp/kyumux-agent-upstreams/copilot-install/bin/copilot",
                     "--model",
                     "gpt-5.4",
                     "--allow-all-tools"

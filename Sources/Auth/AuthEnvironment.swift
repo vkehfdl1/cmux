@@ -16,10 +16,10 @@ enum AuthEnvironment {
         #if DEBUG
         // Debug and tagged dev builds register cmux-dev:// so they can coexist
         // with the installed stable app.
-        return "cmux-dev"
+        return "kyumux-dev"
         #else
-        if Bundle.main.bundleIdentifier == "com.cmuxterm.app.nightly" {
-            return "cmux-nightly"
+        if Bundle.main.bundleIdentifier == "com.kyumux.app.nightly" {
+            return "kyumux-nightly"
         }
         return "cmux"
         #endif

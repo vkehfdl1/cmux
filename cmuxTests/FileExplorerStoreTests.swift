@@ -175,7 +175,7 @@ final class FileExplorerStoreTests: XCTestCase {
             destination: "dev@ubuntu-host",
             port: 2222,
             identityFile: "/Users/alice/.ssh/id_ed25519",
-            sshOptions: ["ControlPath /tmp/cmux-ssh-%C"]
+            sshOptions: ["ControlPath /tmp/kyumux-ssh-%C"]
         )
 
         let store = FileExplorerStore()
@@ -702,7 +702,7 @@ final class FileSearchControllerTests: XCTestCase {
             searchController: searchController
         )
         store.provider = MockFileExplorerProvider(homePath: "/tmp")
-        store.setRootPath("/tmp/cmux-find-debounce-test")
+        store.setRootPath("/tmp/kyumux-find-debounce-test")
         container.updateHeader(store: store)
         container.updatePresentation(.find)
 
@@ -739,7 +739,7 @@ final class FileSearchControllerTests: XCTestCase {
             searchController: searchController
         )
         store.provider = MockFileExplorerProvider(homePath: "/tmp")
-        store.setRootPath("/tmp/cmux-find-content-revision-test")
+        store.setRootPath("/tmp/kyumux-find-content-revision-test")
         container.updateHeader(store: store)
         container.updatePresentation(.find)
 
@@ -781,7 +781,7 @@ final class FileSearchControllerTests: XCTestCase {
 
     private static func searchResult(relativePath: String) -> FileSearchResult {
         FileSearchResult(
-            path: "/tmp/cmux-find-content-revision-test/\(relativePath)",
+            path: "/tmp/kyumux-find-content-revision-test/\(relativePath)",
             relativePath: relativePath,
             lineNumber: 1,
             columnNumber: 1,

@@ -14,7 +14,7 @@ enum UpdateSettings {
 
     static func apply(to defaults: UserDefaults) {
         defaults.register(defaults: [
-            automaticChecksKey: true,
+            automaticChecksKey: false,
             automaticallyUpdateKey: false,
             scheduledCheckIntervalKey: scheduledCheckInterval,
             sendProfileInfoKey: false,
@@ -22,9 +22,7 @@ enum UpdateSettings {
 
         guard !defaults.bool(forKey: migrationKey) else { return }
 
-        // Repair older installs that may have ended up with automatic checks disabled
-        // before the updater defaults were embedded in Info.plist.
-        defaults.set(true, forKey: automaticChecksKey)
+        defaults.set(false, forKey: automaticChecksKey)
 
         if let interval = defaults.object(forKey: scheduledCheckIntervalKey) as? NSNumber {
             let currentInterval = interval.doubleValue

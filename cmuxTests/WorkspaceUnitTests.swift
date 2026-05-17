@@ -2325,7 +2325,7 @@ final class WorkspaceCreationWorkingDirectoryInheritanceTests: XCTestCase {
 
     func testNewWorkspaceInheritsSourceWorkingDirectoryByDefault() throws {
         try withWorkspaceWorkingDirectoryInheritanceSetting(nil) {
-            let sourceCwd = "/tmp/cmux-source-\(UUID().uuidString)"
+            let sourceCwd = "/tmp/kyumux-source-\(UUID().uuidString)"
             let manager = TabManager(
                 initialWorkingDirectory: sourceCwd,
                 autoWelcomeIfNeeded: false
@@ -2340,7 +2340,7 @@ final class WorkspaceCreationWorkingDirectoryInheritanceTests: XCTestCase {
 
     func testDisabledInheritanceLeavesNewWorkspaceCwdUnsetForGhosttyConfigFallback() throws {
         try withWorkspaceWorkingDirectoryInheritanceSetting(false) {
-            let sourceCwd = "/tmp/cmux-source-\(UUID().uuidString)"
+            let sourceCwd = "/tmp/kyumux-source-\(UUID().uuidString)"
             let manager = TabManager(
                 initialWorkingDirectory: sourceCwd,
                 autoWelcomeIfNeeded: false
@@ -2355,7 +2355,7 @@ final class WorkspaceCreationWorkingDirectoryInheritanceTests: XCTestCase {
 
     func testExplicitNoInheritanceLeavesNewWorkspaceCwdUnsetWhenGlobalInheritanceEnabled() throws {
         try withWorkspaceWorkingDirectoryInheritanceSetting(nil) {
-            let sourceCwd = "/tmp/cmux-source-\(UUID().uuidString)"
+            let sourceCwd = "/tmp/kyumux-source-\(UUID().uuidString)"
             let manager = TabManager(
                 initialWorkingDirectory: sourceCwd,
                 autoWelcomeIfNeeded: false
@@ -2373,8 +2373,8 @@ final class WorkspaceCreationWorkingDirectoryInheritanceTests: XCTestCase {
 
     func testExplicitWorkspaceWorkingDirectoryWinsWhenInheritanceIsDisabled() throws {
         try withWorkspaceWorkingDirectoryInheritanceSetting(false) {
-            let sourceCwd = "/tmp/cmux-source-\(UUID().uuidString)"
-            let explicitCwd = "/tmp/cmux-explicit-\(UUID().uuidString)"
+            let sourceCwd = "/tmp/kyumux-source-\(UUID().uuidString)"
+            let explicitCwd = "/tmp/kyumux-explicit-\(UUID().uuidString)"
             let manager = TabManager(
                 initialWorkingDirectory: sourceCwd,
                 autoWelcomeIfNeeded: false
@@ -2392,7 +2392,7 @@ final class WorkspaceCreationWorkingDirectoryInheritanceTests: XCTestCase {
 
     func testDetachedWorkspaceInheritsSourceWorkingDirectoryByDefaultWhenTransferHasNoDirectory() throws {
         try withWorkspaceWorkingDirectoryInheritanceSetting(nil) {
-            let sourceCwd = "/tmp/cmux-source-\(UUID().uuidString)"
+            let sourceCwd = "/tmp/kyumux-source-\(UUID().uuidString)"
             let manager = TabManager(
                 initialWorkingDirectory: sourceCwd,
                 autoWelcomeIfNeeded: false
@@ -2412,7 +2412,7 @@ final class WorkspaceCreationWorkingDirectoryInheritanceTests: XCTestCase {
 
     func testDisabledInheritanceLeavesDetachedWorkspaceFallbackCwdUnsetWhenTransferHasNoDirectory() throws {
         try withWorkspaceWorkingDirectoryInheritanceSetting(false) {
-            let sourceCwd = "/tmp/cmux-source-\(UUID().uuidString)"
+            let sourceCwd = "/tmp/kyumux-source-\(UUID().uuidString)"
             let fallbackCwd = FileManager.default.homeDirectoryForCurrentUser.path
             let manager = TabManager(
                 initialWorkingDirectory: sourceCwd,
@@ -2433,8 +2433,8 @@ final class WorkspaceCreationWorkingDirectoryInheritanceTests: XCTestCase {
 
     func testDetachedWorkspaceTransferDirectoryWinsWhenInheritanceIsDisabled() throws {
         try withWorkspaceWorkingDirectoryInheritanceSetting(false) {
-            let sourceCwd = "/tmp/cmux-source-\(UUID().uuidString)"
-            let transferCwd = "/tmp/cmux-detached-\(UUID().uuidString)"
+            let sourceCwd = "/tmp/kyumux-source-\(UUID().uuidString)"
+            let transferCwd = "/tmp/kyumux-detached-\(UUID().uuidString)"
             let manager = TabManager(
                 initialWorkingDirectory: sourceCwd,
                 autoWelcomeIfNeeded: false
@@ -2808,7 +2808,7 @@ final class WorkspaceCreationConfigSanitizationTests: XCTestCase {
         func installInjectedConfig(fontSize: Float) {
             var config = CmuxSurfaceConfigTemplate()
             config.fontSize = fontSize
-            config.workingDirectory = "/tmp/cmux-workspace-snapshot"
+            config.workingDirectory = "/tmp/kyumux-workspace-snapshot"
             config.command = "echo snapshot"
             config.environmentVariables = ["CMUX_INHERITED_ENV": "1"]
             injectedConfig = config
@@ -3564,7 +3564,7 @@ final class WorkspaceSplitWorkingDirectoryTests: XCTestCase {
         }
 
         let staleCurrentDirectory = workspace.currentDirectory
-        let requestedDirectory = "/tmp/cmux-requested-split-cwd-\(UUID().uuidString)"
+        let requestedDirectory = "/tmp/kyumux-requested-split-cwd-\(UUID().uuidString)"
         guard let sourcePanel = workspace.newTerminalSurface(
             inPane: sourcePaneId,
             focus: false,
@@ -4878,7 +4878,7 @@ final class WorkspacePanelGitBranchTests: XCTestCase {
                 relayPort: 64000,
                 relayID: "relay-fork",
                 relayToken: String(repeating: "a", count: 64),
-                localSocketPath: "/tmp/cmux-fork-remote.sock",
+                localSocketPath: "/tmp/kyumux-fork-remote.sock",
                 terminalStartupCommand: "ssh cmux-macmini"
             ),
             autoConnect: false
@@ -4928,7 +4928,7 @@ final class WorkspacePanelGitBranchTests: XCTestCase {
                 relayPort: 64000,
                 relayID: "relay-fork-fallback",
                 relayToken: String(repeating: "a", count: 64),
-                localSocketPath: "/tmp/cmux-fork-fallback-remote.sock",
+                localSocketPath: "/tmp/kyumux-fork-fallback-remote.sock",
                 terminalStartupCommand: "ssh cmux-macmini"
             ),
             autoConnect: false
@@ -4994,7 +4994,7 @@ final class WorkspacePanelGitBranchTests: XCTestCase {
                 relayPort: 64000,
                 relayID: "relay-session-drop",
                 relayToken: String(repeating: "b", count: 64),
-                localSocketPath: "/tmp/cmux-session-drop-remote.sock",
+                localSocketPath: "/tmp/kyumux-session-drop-remote.sock",
                 terminalStartupCommand: "ssh cmux-macmini"
             ),
             autoConnect: false
@@ -5031,7 +5031,7 @@ final class WorkspacePanelGitBranchTests: XCTestCase {
                 relayPort: 64000,
                 relayID: "relay-fork",
                 relayToken: String(repeating: "a", count: 64),
-                localSocketPath: "/tmp/cmux-fork-remote.sock",
+                localSocketPath: "/tmp/kyumux-fork-remote.sock",
                 terminalStartupCommand: "ssh -p 2222 -i /Users/example/.ssh/cmux -o ServerAliveInterval=30 -tt cmux-macmini"
             ),
             autoConnect: false
@@ -5087,7 +5087,7 @@ final class WorkspacePanelGitBranchTests: XCTestCase {
                 relayPort: 64000,
                 relayID: "relay-workspace-fallback",
                 relayToken: String(repeating: "a", count: 64),
-                localSocketPath: "/tmp/cmux-workspace-fallback-remote.sock",
+                localSocketPath: "/tmp/kyumux-workspace-fallback-remote.sock",
                 terminalStartupCommand: "ssh cmux-macmini"
             ),
             autoConnect: false
@@ -5243,7 +5243,7 @@ final class WorkspacePanelGitBranchTests: XCTestCase {
                 relayPort: 64000,
                 relayID: "relay-fork-local",
                 relayToken: String(repeating: "a", count: 64),
-                localSocketPath: "/tmp/cmux-fork-local-remote.sock",
+                localSocketPath: "/tmp/kyumux-fork-local-remote.sock",
                 terminalStartupCommand: "ssh cmux-macmini"
             ),
             autoConnect: false
@@ -5318,7 +5318,7 @@ final class WorkspacePanelGitBranchTests: XCTestCase {
                 relayPort: 64000,
                 relayID: "relay-fork",
                 relayToken: String(repeating: "a", count: 64),
-                localSocketPath: "/tmp/cmux-fork-remote.sock",
+                localSocketPath: "/tmp/kyumux-fork-remote.sock",
                 terminalStartupCommand: "ssh cmux-macmini"
             ),
             autoConnect: false
@@ -5643,7 +5643,7 @@ final class WorkspacePanelGitBranchTests: XCTestCase {
                 relayPort: 64007,
                 relayID: String(repeating: "a", count: 16),
                 relayToken: String(repeating: "b", count: 64),
-                localSocketPath: "/tmp/cmux-debug-test.sock",
+                localSocketPath: "/tmp/kyumux-debug-test.sock",
                 terminalStartupCommand: "ssh cmux-macmini"
             ),
             autoConnect: false

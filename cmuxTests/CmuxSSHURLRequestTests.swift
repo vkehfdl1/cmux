@@ -95,8 +95,8 @@ final class CmuxSSHURLRequestTests: XCTestCase {
         switch CmuxSSHURLRequest.parse(url) {
         case .success(.some(let request)):
             XCTAssertEqual(
-                request.cliPreview(socketPath: "/tmp/cmux-urlcmd.sock"),
-                "cmux --socket /tmp/cmux-urlcmd.sock ssh --name \"Dev SSH\" dev.example.com"
+                request.cliPreview(socketPath: "/tmp/kyumux-urlcmd.sock"),
+                "cmux --socket /tmp/kyumux-urlcmd.sock ssh --name \"Dev SSH\" dev.example.com"
             )
         case .success(nil):
             XCTFail("Expected SSH URL request")
@@ -134,7 +134,7 @@ final class CmuxSSHURLRequestTests: XCTestCase {
     }
 
     func testParsesStableNightlyAndDevSchemes() throws {
-        for scheme in ["cmux", "cmux-nightly", "cmux-dev"] {
+        for scheme in ["cmux", "kyumux-nightly", "kyumux-dev"] {
             var components = URLComponents()
             components.scheme = scheme
             components.host = "ssh"

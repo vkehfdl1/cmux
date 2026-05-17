@@ -6,7 +6,7 @@ import Bonsplit
 import WebKit
 
 extension Notification.Name {
-    static let socketListenerDidStart = Notification.Name("cmux.socketListenerDidStart")
+    static let socketListenerDidStart = Notification.Name("kyumux.socketListenerDidStart")
     static let terminalSurfaceDidBecomeReady = Notification.Name("cmux.terminalSurfaceDidBecomeReady")
     static let terminalSurfaceHostedViewDidMoveToWindow = Notification.Name("cmux.terminalSurfaceHostedViewDidMoveToWindow")
     static let mainWindowContextsDidChange = Notification.Name("cmux.mainWindowContextsDidChange")
@@ -54,7 +54,7 @@ class TerminalController {
     private nonisolated(unsafe) var pendingAcceptLoopRearmGeneration: UInt64?
     private nonisolated(unsafe) var listenerStartInProgress = false
     private nonisolated let listenerStateLock = NSLock()
-    private nonisolated let socketListenerQueue = DispatchQueue(label: "com.cmux.socket.listener")
+    private nonisolated let socketListenerQueue = DispatchQueue(label: "com.kyumux.socket.listener")
     private nonisolated(unsafe) var listenerReadSource: DispatchSourceRead?
     private nonisolated(unsafe) var listenerReadSourceSuspended = false
     private nonisolated(unsafe) var acceptSourceConsecutiveFailures = 0
@@ -62,7 +62,7 @@ class TerminalController {
     private var tabManager: TabManager?
     private nonisolated(unsafe) var accessMode: SocketControlMode = .cmuxOnly
     private nonisolated let myPid = getpid()
-    private nonisolated static let socketCommandFocusAllowanceStackKey = "cmux.socketCommandFocusAllowanceStack"
+    private nonisolated static let socketCommandFocusAllowanceStackKey = "kyumux.socketCommandFocusAllowanceStack"
     private nonisolated static let socketListenBacklog: Int32 = 128
     private nonisolated static let acceptFailureBaseBackoffMs = 10
     private nonisolated static let acceptFailureMaxBackoffMs = 5_000
@@ -522,7 +522,7 @@ class TerminalController {
     }
 
     private final class SocketFastPathState: @unchecked Sendable {
-        private let queue = DispatchQueue(label: "com.cmux.socket-fast-path")
+        private let queue = DispatchQueue(label: "com.kyumux.socket-fast-path")
         private var lastReportedDirectories: [SocketSurfaceKey: String] = [:]
         private var lastReportedShellStates: [SocketSurfaceKey: Workspace.PanelShellActivityState] = [:]
         private let maxTrackedDirectories = 4096
@@ -13833,7 +13833,7 @@ class TerminalController {
         case "tabtransfer", "tab-transfer", "com.splittabbar.tabtransfer":
             return DragOverlayRoutingPolicy.bonsplitTabTransferType
         case "sidebarreorder", "sidebar-reorder", "sidebar_tab_reorder",
-            "com.cmux.sidebar-tab-reorder":
+            "com.kyumux.sidebar-tab-reorder":
             return DragOverlayRoutingPolicy.sidebarTabReorderType
         default:
             // Allow explicit UTI strings for ad-hoc debug probes.

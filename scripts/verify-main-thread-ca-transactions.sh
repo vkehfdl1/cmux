@@ -3,10 +3,10 @@ set -euo pipefail
 
 APP_PATH="${1:-${CMUX_APP_PATH:-}}"
 TAG="${CMUX_TAG:-ca-main-thread}"
-SOCKET_PATH="${CMUX_SOCKET_PATH:-/tmp/cmux-debug-${TAG}.sock}"
-LOG_PATH="${CMUX_CA_ASSERT_LOG:-/tmp/cmux-ca-main-thread-${TAG}.log}"
+SOCKET_PATH="${CMUX_SOCKET_PATH:-/tmp/kyumux-debug-${TAG}.sock}"
+LOG_PATH="${CMUX_CA_ASSERT_LOG:-/tmp/kyumux-ca-main-thread-${TAG}.log}"
 HOLD_SECONDS="${CMUX_CA_ASSERT_HOLD_SECONDS:-8}"
-APP_PID_FILE="${CMUX_CA_ASSERT_PID_FILE:-/tmp/cmux-ca-main-thread-${TAG}.pid}"
+APP_PID_FILE="${CMUX_CA_ASSERT_PID_FILE:-/tmp/kyumux-ca-main-thread-${TAG}.pid}"
 
 if [ -z "$APP_PATH" ]; then
   echo "usage: CMUX_APP_PATH=/path/to/cmux.app $0" >&2
@@ -20,12 +20,12 @@ if [ ! -d "$APP_PATH" ]; then
 fi
 
 APP_BASENAME="$(basename "$APP_PATH")"
-if [ "$APP_BASENAME" = "cmux DEV.app" ] && [ "${CMUX_ALLOW_UNTAGGED_CA_REGRESSION:-0}" != "1" ]; then
-  echo "ERROR: refusing to launch untagged cmux DEV.app without CMUX_ALLOW_UNTAGGED_CA_REGRESSION=1" >&2
+if [ "$APP_BASENAME" = "Kyu-mux DEV.app" ] && [ "${CMUX_ALLOW_UNTAGGED_CA_REGRESSION:-0}" != "1" ]; then
+  echo "ERROR: refusing to launch untagged Kyu-mux DEV.app without CMUX_ALLOW_UNTAGGED_CA_REGRESSION=1" >&2
   exit 2
 fi
 
-BINARY="$APP_PATH/Contents/MacOS/cmux DEV"
+BINARY="$APP_PATH/Contents/MacOS/Kyu-mux DEV"
 if [ ! -x "$BINARY" ]; then
   BINARY="$APP_PATH/Contents/MacOS/cmux"
 fi

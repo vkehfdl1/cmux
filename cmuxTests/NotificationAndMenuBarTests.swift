@@ -176,7 +176,7 @@ final class TerminalNotificationPolicyEngineTests: XCTestCase {
             id: "partial-notification",
             command: #"printf '{"notification":{"title":"Retitled"},"context":{"appFocused":true}}'"#,
             timeoutSeconds: 5,
-            sourcePath: "/tmp/cmux.json",
+            sourcePath: "/tmp/kyumux.json",
             cwd: FileManager.default.temporaryDirectory.path
         )
 
@@ -187,7 +187,7 @@ final class TerminalNotificationPolicyEngineTests: XCTestCase {
         XCTAssertEqual(patched.notification.title, "Retitled")
         XCTAssertEqual(patched.notification.subtitle, "Subtitle")
         XCTAssertEqual(patched.notification.body, "Body")
-        XCTAssertEqual(patched.context.configPath, "/tmp/cmux.json")
+        XCTAssertEqual(patched.context.configPath, "/tmp/kyumux.json")
         XCTAssertEqual(patched.context.hookId, "partial-notification")
         XCTAssertTrue(patched.context.appFocused)
         XCTAssertFalse(patched.context.focusedPanel)
@@ -208,7 +208,7 @@ final class TerminalNotificationPolicyEngineTests: XCTestCase {
             id: "bad",
             command: "printf nope",
             timeoutSeconds: 5,
-            sourcePath: "/tmp/cmux.json",
+            sourcePath: "/tmp/kyumux.json",
             cwd: FileManager.default.temporaryDirectory.path
         )
 
@@ -237,7 +237,7 @@ final class TerminalNotificationPolicyEngineTests: XCTestCase {
             id: "slow",
             command: "sleep 2; cat",
             timeoutSeconds: 0.1,
-            sourcePath: "/tmp/cmux.json",
+            sourcePath: "/tmp/kyumux.json",
             cwd: FileManager.default.temporaryDirectory.path
         )
 
@@ -266,7 +266,7 @@ final class TerminalNotificationPolicyEngineTests: XCTestCase {
             id: "background-stdout",
             command: "sleep 3 & cat",
             timeoutSeconds: 5,
-            sourcePath: "/tmp/cmux.json",
+            sourcePath: "/tmp/kyumux.json",
             cwd: FileManager.default.temporaryDirectory.path
         )
 
@@ -1465,7 +1465,7 @@ final class MenuBarBuildHintFormatterTests: XCTestCase {
 
     func testDebugBuildWithoutTagShowsUntagged() {
         XCTAssertEqual(
-            MenuBarBuildHintFormatter.menuTitle(appName: "cmux DEV", isDebugBuild: true),
+            MenuBarBuildHintFormatter.menuTitle(appName: "Kyu-mux DEV", isDebugBuild: true),
             "Build: DEV (untagged)"
         )
     }
