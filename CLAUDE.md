@@ -1,5 +1,36 @@
 # cmux agent notes
 
+> **⚠️ FORK NOTICE — Kyu-mux personal dogfooding fork**
+>
+> This repository is `vkehfdl1/cmux`, a personal fork of `manaflow-ai/cmux`.
+> It is rebranded as **Kyu-mux** with a yellow logo variant for private
+> dogfooding alongside the upstream `cmux` app. The two apps are fully
+> isolated and CAN run side-by-side without state collisions:
+>
+> - Bundle IDs: `com.kyumux.app(.debug|.nightly|.staging|.uitests|.docktileplugin)`
+> - App display name: `Kyu-mux` / `Kyu-mux DEV` / `Kyu-mux STAGING`
+> - Socket paths: `/tmp/kyumux-*.sock`, `/tmp/kyumux-debug-*.sock`, `/tmp/kyumux.sock`
+> - Log paths: `/tmp/kyumux-debug-*.log`
+> - URL schemes: `kyumux://`, `kyumux-dev://`, `kyumux-nightly://`
+> - User config: `~/.kyumuxterm/`, `~/.config/kyumux/`, `~/.kyumux/socket_addr`
+> - CLI binary: `kyumux` (Bundle/Contents/Resources/bin/kyumux); shim at `~/.local/bin/kyumux-dev`
+> - Pasteboard UTTypes: `com.kyumux.sidebar-tab-reorder`, `com.kyumux.filepreview.transfer`
+> - Dock plugin: `KyumuxDockTilePlugin.plugin` (class `KyumuxDockTilePlugin`)
+> - Sparkle auto-update: **DISABLED** (no remote update checks; we're a private fork)
+> - DerivedData: `~/Library/Developer/Xcode/DerivedData/kyumux-<tag>`
+> - PR2 aggressive cleanup flag (`workspaceAggressiveCleanupOnTeardown`): **ON by default** for Kyumux
+>
+> **Internal Swift class names remain `Cmux*`** (`CmuxWebView`, `CmuxTaskManagerView`, etc.)
+> because they are implementation details not visible to users, and renaming them would
+> dramatically widen the diff vs upstream without isolation benefit.
+>
+> **NEVER push to `manaflow-ai/cmux`.** This repo's `origin` is `vkehfdl1/cmux`.
+> All branches (`fix-mem-leaks-*`, `kyumux-fork`, `main`) live in the fork.
+> Pull from upstream by hand when syncing with manaflow-ai.
+>
+> The original cmux agent notes below still apply for build commands, code style,
+> and policy — read `cmux` as `kyumux` mentally for app-related identifiers.
+
 ## Initial setup
 
 Run the setup script to initialize submodules and build GhosttyKit:

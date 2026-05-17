@@ -59,7 +59,7 @@ final class SessionPersistenceTests: XCTestCase {
             relayPort: 64001,
             relayID: "relay-test",
             relayToken: String(repeating: "c", count: 64),
-            localSocketPath: "/tmp/cmux-test.sock",
+            localSocketPath: "/tmp/kyumux-test.sock",
             terminalStartupCommand: "ssh cmux-macmini"
         )
 
@@ -227,7 +227,7 @@ final class SessionPersistenceTests: XCTestCase {
 
     func testRestorePolicySkipsWhenLaunchHasExplicitArguments() {
         let shouldRestore = SessionRestorePolicy.shouldAttemptRestore(
-            arguments: ["/Applications/cmux.app/Contents/MacOS/cmux", "--window", "window:1"],
+            arguments: ["/Applications/Kyu-mux.app/Contents/MacOS/cmux", "--window", "window:1"],
             environment: [:]
         )
 
@@ -236,7 +236,7 @@ final class SessionPersistenceTests: XCTestCase {
 
     func testRestorePolicyAllowsFinderStyleLaunchArgumentsOnly() {
         let shouldRestore = SessionRestorePolicy.shouldAttemptRestore(
-            arguments: ["/Applications/cmux.app/Contents/MacOS/cmux", "-psn_0_12345"],
+            arguments: ["/Applications/Kyu-mux.app/Contents/MacOS/cmux", "-psn_0_12345"],
             environment: [:]
         )
 
@@ -245,7 +245,7 @@ final class SessionPersistenceTests: XCTestCase {
 
     func testRestorePolicySkipsWhenRunningUnderXCTest() {
         let shouldRestore = SessionRestorePolicy.shouldAttemptRestore(
-            arguments: ["/Applications/cmux.app/Contents/MacOS/cmux"],
+            arguments: ["/Applications/Kyu-mux.app/Contents/MacOS/cmux"],
             environment: ["XCTestConfigurationFilePath": "/tmp/xctest.xctestconfiguration"]
         )
 
@@ -432,12 +432,12 @@ final class SessionPersistenceTests: XCTestCase {
 
     func testNormalizedExportedScreenPathAcceptsAbsoluteAndFileURL() {
         XCTAssertEqual(
-            TerminalController.normalizedExportedScreenPath("/tmp/cmux-screen.txt"),
-            "/tmp/cmux-screen.txt"
+            TerminalController.normalizedExportedScreenPath("/tmp/kyumux-screen.txt"),
+            "/tmp/kyumux-screen.txt"
         )
         XCTAssertEqual(
-            TerminalController.normalizedExportedScreenPath(" file:///tmp/cmux-screen.txt "),
-            "/tmp/cmux-screen.txt"
+            TerminalController.normalizedExportedScreenPath(" file:///tmp/kyumux-screen.txt "),
+            "/tmp/kyumux-screen.txt"
         )
     }
 
@@ -2760,9 +2760,9 @@ final class SocketListenerAcceptPolicyTests: XCTestCase {
             workingDirectory: "/tmp/team repo",
             launchCommand: AgentLaunchCommandSnapshot(
                 launcher: "claudeTeams",
-                executablePath: "/Applications/cmux.app/Contents/Resources/bin/cmux",
+                executablePath: "/Applications/Kyu-mux.app/Contents/Resources/bin/cmux",
                 arguments: [
-                    "/Applications/cmux.app/Contents/Resources/bin/cmux",
+                    "/Applications/Kyu-mux.app/Contents/Resources/bin/cmux",
                     "claude-teams",
                     "--teammate-mode",
                     "auto",
@@ -2788,7 +2788,7 @@ final class SocketListenerAcceptPolicyTests: XCTestCase {
 
         XCTAssertEqual(
             snapshot.resumeCommand,
-            "cd '/tmp/team repo' && 'env' 'CMUX_CUSTOM_CLAUDE_PATH=/opt/Claude Code/bin/claude' '/Applications/cmux.app/Contents/Resources/bin/cmux' 'claude-teams' '--resume' 'claude-team-session' '--teammate-mode' 'auto' '--model' 'sonnet' '--remote-control-session-name-prefix' 'cmux-team' '--permission-mode' 'auto'"
+            "cd '/tmp/team repo' && 'env' 'CMUX_CUSTOM_CLAUDE_PATH=/opt/Claude Code/bin/claude' '/Applications/Kyu-mux.app/Contents/Resources/bin/cmux' 'claude-teams' '--resume' 'claude-team-session' '--teammate-mode' 'auto' '--model' 'sonnet' '--remote-control-session-name-prefix' 'cmux-team' '--permission-mode' 'auto'"
         )
     }
 
@@ -2864,7 +2864,7 @@ final class SocketListenerAcceptPolicyTests: XCTestCase {
                 arguments: ["claude", "--model", "sonnet"],
                 workingDirectory: nil,
                 environment: [
-                    "NODE_OPTIONS": "--require=/tmp/cmux-claude-node-options/restore-node-options.cjs --max-old-space-size=4096 --trace-warnings"
+                    "NODE_OPTIONS": "--require=/tmp/kyumux-claude-node-options/restore-node-options.cjs --max-old-space-size=4096 --trace-warnings"
                 ],
                 capturedAt: nil,
                 source: nil
@@ -2888,7 +2888,7 @@ final class SocketListenerAcceptPolicyTests: XCTestCase {
                 arguments: ["claude", "--model", "sonnet"],
                 workingDirectory: nil,
                 environment: [
-                    "NODE_OPTIONS": "--require /tmp/cmux-claude-node-options/restore-node-options.cjs --max-old-space-size 4096"
+                    "NODE_OPTIONS": "--require /tmp/kyumux-claude-node-options/restore-node-options.cjs --max-old-space-size 4096"
                 ],
                 capturedAt: nil,
                 source: nil

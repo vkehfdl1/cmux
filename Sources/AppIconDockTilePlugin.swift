@@ -1,7 +1,7 @@
 import AppKit
 import CoreServices
 
-private let cmuxAppIconDidChangeNotification = Notification.Name("com.cmuxterm.appIconDidChange")
+private let cmuxAppIconDidChangeNotification = Notification.Name("com.kyumux.appIconDidChange")
 private let cmuxAppIconModeKey = "appIconMode"
 
 private enum DockTileAppIconMode: String {
@@ -25,10 +25,10 @@ private enum DockTileAppIconMode: String {
     }
 }
 
-final class CmuxDockTilePlugin: NSObject, NSDockTilePlugIn {
+final class KyumuxDockTilePlugin: NSObject, NSDockTilePlugIn {
     // The plugin can stay alive while the app remains in the Dock, even after quit.
     // Keep the state minimal and derive everything from the enclosing app bundle.
-    private let pluginBundle = Bundle(for: CmuxDockTilePlugin.self)
+    private let pluginBundle = Bundle(for: KyumuxDockTilePlugin.self)
     private var iconChangeObserver: NSObjectProtocol?
     private var appearanceObservation: NSKeyValueObservation?
 
@@ -90,7 +90,7 @@ final class CmuxDockTilePlugin: NSObject, NSDockTilePlugIn {
         guard let appBundleURL else { return false }
         // The default untagged Debug app is rebuilt and re-signed in place during CI.
         // Persisting a custom icon there leaves Finder metadata behind and breaks codesign.
-        return appBundleURL.lastPathComponent != "cmux DEV.app"
+        return appBundleURL.lastPathComponent != "Kyu-mux DEV.app"
     }
 
     private var appDefaults: UserDefaults? {
@@ -161,14 +161,14 @@ final class CmuxDockTilePlugin: NSObject, NSDockTilePlugIn {
 
 private extension NSDockTile {
     func showDefaultAppIcon() {
-        CmuxDockTilePlugin.assertMainQueue()
+        KyumuxDockTilePlugin.assertMainQueue()
 
         contentView = nil
         display()
     }
 
     func showIcon(_ newIcon: NSImage) {
-        CmuxDockTilePlugin.assertMainQueue()
+        KyumuxDockTilePlugin.assertMainQueue()
 
         let iconView = NSImageView(frame: CGRect(origin: .zero, size: size))
         iconView.wantsLayer = true

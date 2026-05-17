@@ -5095,7 +5095,7 @@ final class WorkspaceRemoteSessionController {
     static func remoteRelayMetadataCleanupScript(relayPort: Int) -> String {
         """
         relay_socket='127.0.0.1:\(relayPort)'
-        socket_addr_file="$HOME/.cmux/socket_addr"
+        socket_addr_file="$HOME/.kyumux/socket_addr"
         if [ -r "$socket_addr_file" ] && [ "$(tr -d '\\r\\n' < "$socket_addr_file")" = "$relay_socket" ]; then
           rm -f "$socket_addr_file"
         fi
@@ -5521,7 +5521,7 @@ final class WorkspaceRemoteSessionController {
     static func remoteDropPath(for fileURL: URL, uuid: UUID = UUID()) -> String {
         let extensionSuffix = fileURL.pathExtension.trimmingCharacters(in: .whitespacesAndNewlines)
         let lowercasedSuffix = extensionSuffix.isEmpty ? "" : ".\(extensionSuffix.lowercased())"
-        return "/tmp/cmux-drop-\(uuid.uuidString.lowercased())\(lowercasedSuffix)"
+        return "/tmp/kyumux-drop-\(uuid.uuidString.lowercased())\(lowercasedSuffix)"
     }
 
     private func cleanupUploadedRemotePaths(_ remotePaths: [String]) {
@@ -5642,8 +5642,8 @@ final class WorkspaceRemoteSessionController {
 
         daemon="$HOME/.cmux/bin/cmuxd-remote-current"
         socket_path="${CMUX_SOCKET_PATH:-}"
-        if [ -z "$socket_path" ] && [ -r "$HOME/.cmux/socket_addr" ]; then
-          socket_path="$(tr -d '\\r\\n' < "$HOME/.cmux/socket_addr")"
+        if [ -z "$socket_path" ] && [ -r "$HOME/.kyumux/socket_addr" ]; then
+          socket_path="$(tr -d '\\r\\n' < "$HOME/.kyumux/socket_addr")"
         fi
 
         if [ -n "$socket_path" ] && [ "${socket_path#/}" = "$socket_path" ] && [ "${socket_path#*:}" != "$socket_path" ]; then
@@ -5697,7 +5697,7 @@ final class WorkspaceRemoteSessionController {
         \(authPayload)
         CMUXRELAYAUTH
         chmod 600 "$HOME/.cmux/relay/\(relayPort).auth"
-        printf '%s' '127.0.0.1:\(relayPort)' > "$HOME/.cmux/socket_addr"
+        printf '%s' '127.0.0.1:\(relayPort)' > "$HOME/.kyumux/socket_addr"
         """
     }
 
@@ -11023,6 +11023,33 @@ final class Workspace: Identifiable, ObservableObject {
         terminalInheritanceFontPointsByPanelId.removeAll(keepingCapacity: false)
         lastTerminalConfigInheritancePanelId = nil
         lastTerminalConfigInheritanceFontPoints = nil
+        if WorkspaceMemorySettings.aggressiveCleanupOnTeardown {
+            aggressivelyClearPerPanelState()
+        }
+    }
+
+    private func aggressivelyClearPerPanelState() {
+        panelSubscriptions.values.forEach { $0.cancel() }
+        panelSubscriptions.removeAll(keepingCapacity: false)
+        panels.removeAll(keepingCapacity: false)
+        panelDirectories.removeAll(keepingCapacity: false)
+        panelTitles.removeAll(keepingCapacity: false)
+        panelCustomTitles.removeAll(keepingCapacity: false)
+        statusEntries.removeAll(keepingCapacity: false)
+        metadataBlocks.removeAll(keepingCapacity: false)
+        logEntries.removeAll(keepingCapacity: false)
+        panelGitBranches.removeAll(keepingCapacity: false)
+        panelPullRequests.removeAll(keepingCapacity: false)
+        surfaceListeningPorts.removeAll(keepingCapacity: false)
+        agentListeningPorts.removeAll(keepingCapacity: false)
+        surfaceTTYNames.removeAll(keepingCapacity: false)
+        panelShellActivityStates.removeAll(keepingCapacity: false)
+        agentPIDs.removeAll(keepingCapacity: false)
+        agentPIDPanelIdsByKey.removeAll(keepingCapacity: false)
+        agentPIDKeysByPanelId.removeAll(keepingCapacity: false)
+        restoredAgentSnapshotsByPanelId.removeAll(keepingCapacity: false)
+        restoredAgentResumeStatesByPanelId.removeAll(keepingCapacity: false)
+        invalidatedRestoredAgentFingerprintsByPanelId.removeAll(keepingCapacity: false)
     }
 
     /// Close a panel.

@@ -136,7 +136,7 @@ final class WorkspacePullRequestSidebarTests: XCTestCase {
             let panelId = try XCTUnwrap(workspace.focusedPanelId)
             workspace.updatePanelDirectory(
                 panelId: panelId,
-                directory: "/tmp/cmux-pr-refresh-main-thread-\(index)"
+                directory: "/tmp/kyumux-pr-refresh-main-thread-\(index)"
             )
             workspace.updatePanelGitBranch(
                 panelId: panelId,

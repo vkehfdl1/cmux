@@ -1882,7 +1882,7 @@ final class CmuxConfigWorkspaceCommandExecutionTests: XCTestCase {
             tabManager: manager,
             baseCwd: NSTemporaryDirectory(),
             configSourcePath: nil,
-            globalConfigPath: "/tmp/cmux-test-global-config.json"
+            globalConfigPath: "/tmp/kyumux-test-global-config.json"
         ))
 
         XCTAssertEqual(manager.tabs.count, 2)
@@ -1907,7 +1907,7 @@ final class CmuxConfigWorkspaceCommandExecutionTests: XCTestCase {
             tabManager: manager,
             baseCwd: NSTemporaryDirectory(),
             configSourcePath: nil,
-            globalConfigPath: "/tmp/cmux-test-global-config.json"
+            globalConfigPath: "/tmp/kyumux-test-global-config.json"
         ))
 
         XCTAssertEqual(manager.tabs.count, 2)
@@ -1932,7 +1932,7 @@ final class CmuxConfigWorkspaceCommandExecutionTests: XCTestCase {
             tabManager: manager,
             baseCwd: NSTemporaryDirectory(),
             configSourcePath: nil,
-            globalConfigPath: "/tmp/cmux-test-global-config.json"
+            globalConfigPath: "/tmp/kyumux-test-global-config.json"
         ))
 
         XCTAssertEqual(manager.tabs.map(\.id), [existingWorkspace.id])
@@ -1955,7 +1955,7 @@ final class CmuxConfigWorkspaceCommandExecutionTests: XCTestCase {
             tabManager: manager,
             baseCwd: NSTemporaryDirectory(),
             configSourcePath: nil,
-            globalConfigPath: "/tmp/cmux-test-global-config.json"
+            globalConfigPath: "/tmp/kyumux-test-global-config.json"
         ))
 
         XCTAssertEqual(manager.tabs.count, 1)

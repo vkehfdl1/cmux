@@ -31,7 +31,7 @@ final class GhosttyTerminalStartupEnvironmentTests: XCTestCase {
     }
 
     func testMergedStartupEnvironmentAllowsSessionReplayAndInitialEnvCMUXKeys() {
-        let replayPath = "/tmp/cmux-replay-\(UUID().uuidString)"
+        let replayPath = "/tmp/kyumux-replay-\(UUID().uuidString)"
         let merged = TerminalSurface.mergedStartupEnvironment(
             base: [
                 "PATH": "/usr/bin",

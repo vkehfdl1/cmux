@@ -153,7 +153,7 @@ struct ConfigSourceEnvironment {
 }
 
 enum CmuxGhosttyConfigPathResolver {
-    static let releaseBundleIdentifier = "com.cmuxterm.app"
+    static let releaseBundleIdentifier = "com.kyumux.app"
     private static let releaseFallbackChannelSuffixes = ["debug", "nightly", "staging"]
 
     static func editableConfigURL(

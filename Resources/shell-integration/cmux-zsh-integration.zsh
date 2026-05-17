@@ -710,12 +710,12 @@ _cmux_github_repo_slug_for_path() {
 
 _cmux_pr_cache_prefix() {
     [[ -n "$CMUX_PANEL_ID" ]] || return 1
-    print -r -- "/tmp/cmux-pr-cache-${CMUX_PANEL_ID}"
+    print -r -- "/tmp/kyumux-pr-cache-${CMUX_PANEL_ID}"
 }
 
 _cmux_pr_force_signal_path() {
     [[ -n "$CMUX_PANEL_ID" ]] || return 1
-    print -r -- "/tmp/cmux-pr-force-${CMUX_PANEL_ID}"
+    print -r -- "/tmp/kyumux-pr-force-${CMUX_PANEL_ID}"
 }
 
 _cmux_pr_debug_log() {
@@ -724,7 +724,7 @@ _cmux_pr_debug_log() {
     local branch="$1"
     local event="$2"
     local now="${EPOCHSECONDS:-$SECONDS}"
-    printf '%s\tbranch=%s\tevent=%s\n' "$now" "$branch" "$event" >> /tmp/cmux-pr-debug.log
+    printf '%s\tbranch=%s\tevent=%s\n' "$now" "$branch" "$event" >> /tmp/kyumux-pr-debug.log
 }
 
 _cmux_pr_cache_clear() {

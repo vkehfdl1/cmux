@@ -59,7 +59,7 @@ final class TabManagerSessionSnapshotTests: XCTestCase {
             relayPort: 64001,
             relayID: "relay-test",
             relayToken: String(repeating: "b", count: 64),
-            localSocketPath: "/tmp/cmux-test.sock",
+            localSocketPath: "/tmp/kyumux-test.sock",
             terminalStartupCommand: "ssh cmux-macmini"
         )
         remoteWorkspace.configureRemoteConnection(configuration, autoConnect: false)
@@ -117,7 +117,7 @@ final class TabManagerSessionSnapshotTests: XCTestCase {
             relayPort: 64001,
             relayID: "relay-test",
             relayToken: String(repeating: "c", count: 64),
-            localSocketPath: "/tmp/cmux-test.sock",
+            localSocketPath: "/tmp/kyumux-test.sock",
             terminalStartupCommand: "ssh cmux-macmini"
         )
         workspace.configureRemoteConnection(configuration, autoConnect: false)
@@ -141,7 +141,7 @@ final class TabManagerSessionSnapshotTests: XCTestCase {
             port: 2222,
             identityFile: identityFile,
             sshOptions: [
-                "ControlPath=/tmp/cmux-ssh-%C",
+                "ControlPath=/tmp/kyumux-ssh-%C",
                 "ControlMaster=auto",
                 "ControlPersist=60s",
                 "StrictHostKeyChecking=accept-new",
@@ -150,7 +150,7 @@ final class TabManagerSessionSnapshotTests: XCTestCase {
             relayPort: 64002,
             relayID: "relay-restore-test",
             relayToken: String(repeating: "d", count: 64),
-            localSocketPath: "/tmp/cmux-restore-test.sock",
+            localSocketPath: "/tmp/kyumux-restore-test.sock",
             terminalStartupCommand: "ssh dev@example.com"
         )
         remoteWorkspace.configureRemoteConnection(configuration, autoConnect: false)

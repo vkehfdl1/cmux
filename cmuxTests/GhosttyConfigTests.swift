@@ -82,8 +82,8 @@ final class GhosttyConfigTests: XCTestCase {
     }
 
     func testThemeSearchPathsIncludeXDGDataDirsThemes() {
-        let pathA = "/tmp/cmux-theme-a"
-        let pathB = "/tmp/cmux-theme-b"
+        let pathA = "/tmp/kyumux-theme-a"
+        let pathB = "/tmp/kyumux-theme-b"
         let paths = GhosttyConfig.themeSearchPaths(
             forThemeName: "Solarized Light",
             environment: ["XDG_DATA_DIRS": "\(pathA):\(pathB)"],
@@ -925,60 +925,60 @@ final class RemoteLoopbackHTTPRequestRewriterTests: XCTestCase {
         let original = Data(
             (
                 "GET /demo HTTP/1.1\r\n" +
-                "Host: cmux-loopback.localtest.me:3000\r\n" +
-                "Origin: http://cmux-loopback.localtest.me:3000\r\n" +
-                "Referer: http://cmux-loopback.localtest.me:3000/app\r\n" +
+                "Host: kyumux-loopback.localtest.me:3000\r\n" +
+                "Origin: http://kyumux-loopback.localtest.me:3000\r\n" +
+                "Referer: http://kyumux-loopback.localtest.me:3000/app\r\n" +
                 "\r\n"
             ).utf8
         )
 
         let rewritten = RemoteLoopbackHTTPRequestRewriter.rewriteIfNeeded(
             data: original,
-            aliasHost: "cmux-loopback.localtest.me"
+            aliasHost: "kyumux-loopback.localtest.me"
         )
 
         let text = String(decoding: rewritten, as: UTF8.self)
         XCTAssertTrue(text.contains("Host: localhost:3000"))
         XCTAssertTrue(text.contains("Origin: http://localhost:3000"))
         XCTAssertTrue(text.contains("Referer: http://localhost:3000/app"))
-        XCTAssertFalse(text.contains("cmux-loopback.localtest.me"))
+        XCTAssertFalse(text.contains("kyumux-loopback.localtest.me"))
     }
 
     func testRewritesLoopbackSubdomainAliasHostHeadersToOriginalLocalhostSubdomain() {
         let original = Data(
             (
                 "GET /demo HTTP/1.1\r\n" +
-                "Host: api.cmux-loopback.localtest.me:3000\r\n" +
-                "Origin: http://api.cmux-loopback.localtest.me:3000\r\n" +
-                "Referer: http://api.cmux-loopback.localtest.me:3000/app\r\n" +
+                "Host: api.kyumux-loopback.localtest.me:3000\r\n" +
+                "Origin: http://api.kyumux-loopback.localtest.me:3000\r\n" +
+                "Referer: http://api.kyumux-loopback.localtest.me:3000/app\r\n" +
                 "\r\n"
             ).utf8
         )
 
         let rewritten = RemoteLoopbackHTTPRequestRewriter.rewriteIfNeeded(
             data: original,
-            aliasHost: "cmux-loopback.localtest.me"
+            aliasHost: "kyumux-loopback.localtest.me"
         )
 
         let text = String(decoding: rewritten, as: UTF8.self)
         XCTAssertTrue(text.contains("Host: api.localhost:3000"))
         XCTAssertTrue(text.contains("Origin: http://api.localhost:3000"))
         XCTAssertTrue(text.contains("Referer: http://api.localhost:3000/app"))
-        XCTAssertFalse(text.contains("api.cmux-loopback.localtest.me"))
+        XCTAssertFalse(text.contains("api.kyumux-loopback.localtest.me"))
     }
 
     func testRewritesAbsoluteFormRequestLineForLoopbackAlias() {
         let original = Data(
             (
-                "GET http://cmux-loopback.localtest.me:3000/demo HTTP/1.1\r\n" +
-                "Host: cmux-loopback.localtest.me:3000\r\n" +
+                "GET http://kyumux-loopback.localtest.me:3000/demo HTTP/1.1\r\n" +
+                "Host: kyumux-loopback.localtest.me:3000\r\n" +
                 "\r\n"
             ).utf8
         )
 
         let rewritten = RemoteLoopbackHTTPRequestRewriter.rewriteIfNeeded(
             data: original,
-            aliasHost: "cmux-loopback.localtest.me"
+            aliasHost: "kyumux-loopback.localtest.me"
         )
 
         let text = String(decoding: rewritten, as: UTF8.self)
@@ -990,14 +990,14 @@ final class RemoteLoopbackHTTPRequestRewriterTests: XCTestCase {
         let original = Data([0x16, 0x03, 0x01, 0x00, 0x2a, 0x01, 0x00])
         let rewritten = RemoteLoopbackHTTPRequestRewriter.rewriteIfNeeded(
             data: original,
-            aliasHost: "cmux-loopback.localtest.me"
+            aliasHost: "kyumux-loopback.localtest.me"
         )
         XCTAssertEqual(rewritten, original)
     }
 
     func testBuffersSplitLoopbackAliasHeadersUntilFullRequestArrives() {
         var streamRewriter = RemoteLoopbackHTTPRequestStreamRewriter(
-            aliasHost: "cmux-loopback.localtest.me"
+            aliasHost: "kyumux-loopback.localtest.me"
         )
 
         let firstChunk = Data(
@@ -1009,8 +1009,8 @@ final class RemoteLoopbackHTTPRequestRewriterTests: XCTestCase {
         let secondChunk = Data(
             (
                 "back.localtest.me:3000\r\n" +
-                "Origin: http://cmux-loopback.localtest.me:3000\r\n" +
-                "Referer: http://cmux-loopback.localtest.me:3000/app\r\n" +
+                "Origin: http://kyumux-loopback.localtest.me:3000\r\n" +
+                "Referer: http://kyumux-loopback.localtest.me:3000/app\r\n" +
                 "\r\n" +
                 "body=1"
             ).utf8
@@ -1026,12 +1026,12 @@ final class RemoteLoopbackHTTPRequestRewriterTests: XCTestCase {
         XCTAssertTrue(text.contains("Origin: http://localhost:3000"))
         XCTAssertTrue(text.contains("Referer: http://localhost:3000/app"))
         XCTAssertTrue(text.hasSuffix("\r\n\r\nbody=1"))
-        XCTAssertFalse(text.contains("cmux-loopback.localtest.me"))
+        XCTAssertFalse(text.contains("kyumux-loopback.localtest.me"))
     }
 
     func testFlushesBufferedLoopbackAliasHeadersOnEOFWhenHeadersRemainIncomplete() {
         var streamRewriter = RemoteLoopbackHTTPRequestStreamRewriter(
-            aliasHost: "cmux-loopback.localtest.me"
+            aliasHost: "kyumux-loopback.localtest.me"
         )
 
         let firstChunk = Data(
@@ -1043,8 +1043,8 @@ final class RemoteLoopbackHTTPRequestRewriterTests: XCTestCase {
         let secondChunk = Data(
             (
                 "back.localtest.me:3000\r\n" +
-                "Origin: http://cmux-loopback.localtest.me:3000\r\n" +
-                "Referer: http://cmux-loopback.localtest.me:3000/app\r\n" +
+                "Origin: http://kyumux-loopback.localtest.me:3000\r\n" +
+                "Referer: http://kyumux-loopback.localtest.me:3000/app\r\n" +
                 "body=1"
             ).utf8
         )
@@ -1060,7 +1060,7 @@ final class RemoteLoopbackHTTPRequestRewriterTests: XCTestCase {
         XCTAssertTrue(text.contains("Origin: http://localhost:3000"))
         XCTAssertTrue(text.contains("Referer: http://localhost:3000/app"))
         XCTAssertTrue(text.hasSuffix("\r\nbody=1"))
-        XCTAssertFalse(text.contains("cmux-loopback.localtest.me"))
+        XCTAssertFalse(text.contains("kyumux-loopback.localtest.me"))
         XCTAssertTrue(thirdOutput.isEmpty)
     }
 
@@ -1077,13 +1077,13 @@ final class RemoteLoopbackHTTPRequestRewriterTests: XCTestCase {
 
         let rewritten = RemoteLoopbackHTTPResponseRewriter.rewriteIfNeeded(
             data: original,
-            aliasHost: "cmux-loopback.localtest.me"
+            aliasHost: "kyumux-loopback.localtest.me"
         )
 
         let text = String(decoding: rewritten, as: UTF8.self)
-        XCTAssertTrue(text.contains("Location: http://cmux-loopback.localtest.me:3000/login"))
-        XCTAssertTrue(text.contains("Access-Control-Allow-Origin: http://cmux-loopback.localtest.me:3000"))
-        XCTAssertTrue(text.contains("Set-Cookie: sid=1; Domain=cmux-loopback.localtest.me; Path=/"))
+        XCTAssertTrue(text.contains("Location: http://kyumux-loopback.localtest.me:3000/login"))
+        XCTAssertTrue(text.contains("Access-Control-Allow-Origin: http://kyumux-loopback.localtest.me:3000"))
+        XCTAssertTrue(text.contains("Set-Cookie: sid=1; Domain=kyumux-loopback.localtest.me; Path=/"))
     }
 
     func testRewritesLoopbackSubdomainResponseHeadersBackToAliasSubdomain() {
@@ -1099,13 +1099,13 @@ final class RemoteLoopbackHTTPRequestRewriterTests: XCTestCase {
 
         let rewritten = RemoteLoopbackHTTPResponseRewriter.rewriteIfNeeded(
             data: original,
-            aliasHost: "cmux-loopback.localtest.me"
+            aliasHost: "kyumux-loopback.localtest.me"
         )
 
         let text = String(decoding: rewritten, as: UTF8.self)
-        XCTAssertTrue(text.contains("Location: http://api.cmux-loopback.localtest.me:3000/login"))
-        XCTAssertTrue(text.contains("Access-Control-Allow-Origin: http://api.cmux-loopback.localtest.me:3000"))
-        XCTAssertTrue(text.contains("Set-Cookie: sid=1; Domain=api.cmux-loopback.localtest.me; Path=/"))
+        XCTAssertTrue(text.contains("Location: http://api.kyumux-loopback.localtest.me:3000/login"))
+        XCTAssertTrue(text.contains("Access-Control-Allow-Origin: http://api.kyumux-loopback.localtest.me:3000"))
+        XCTAssertTrue(text.contains("Set-Cookie: sid=1; Domain=api.kyumux-loopback.localtest.me; Path=/"))
     }
 
     func testRewritesLeadingDotLoopbackCookieDomainsBackToAliasDomains() {
@@ -1120,12 +1120,12 @@ final class RemoteLoopbackHTTPRequestRewriterTests: XCTestCase {
 
         let rewritten = RemoteLoopbackHTTPResponseRewriter.rewriteIfNeeded(
             data: original,
-            aliasHost: "cmux-loopback.localtest.me"
+            aliasHost: "kyumux-loopback.localtest.me"
         )
 
         let text = String(decoding: rewritten, as: UTF8.self)
-        XCTAssertTrue(text.contains("Set-Cookie: root=1; Domain=.cmux-loopback.localtest.me; Path=/"))
-        XCTAssertTrue(text.contains("Set-Cookie: api=1; Domain=.api.cmux-loopback.localtest.me; Path=/"))
+        XCTAssertTrue(text.contains("Set-Cookie: root=1; Domain=.kyumux-loopback.localtest.me; Path=/"))
+        XCTAssertTrue(text.contains("Set-Cookie: api=1; Domain=.api.kyumux-loopback.localtest.me; Path=/"))
     }
 }
 
@@ -1250,7 +1250,7 @@ final class BrowserPanelRemoteStoreTests: XCTestCase {
         while panel.webView.url == nil, RunLoop.main.run(mode: .default, before: deadline), Date() < deadline {}
 
         XCTAssertEqual(panel.preferredURLStringForOmnibar(), url.absoluteString)
-        XCTAssertEqual(panel.webView.url?.host, "cmux-loopback.localtest.me")
+        XCTAssertEqual(panel.webView.url?.host, "kyumux-loopback.localtest.me")
     }
 
     func testRemoteWorkspacePreservesLocalhostSubdomainWhenAliasingLoopbackURL() {
@@ -1272,7 +1272,7 @@ final class BrowserPanelRemoteStoreTests: XCTestCase {
         while panel.webView.url == nil, RunLoop.main.run(mode: .default, before: deadline), Date() < deadline {}
 
         XCTAssertEqual(panel.preferredURLStringForOmnibar(), url.absoluteString)
-        XCTAssertEqual(panel.webView.url?.host, "api.cmux-loopback.localtest.me")
+        XCTAssertEqual(panel.webView.url?.host, "api.kyumux-loopback.localtest.me")
     }
 
     func testRemoteWorkspaceRuntimeBridgeAliasesMultipleLoopbackPortsFromSamePage() async throws {
@@ -1282,7 +1282,7 @@ final class BrowserPanelRemoteStoreTests: XCTestCase {
             isRemoteWorkspace: true,
             remoteWebsiteDataStoreIdentifier: remoteWorkspaceId
         )
-        let baseURL = try XCTUnwrap(URL(string: "http://cmux-loopback.localtest.me:3000/"))
+        let baseURL = try XCTUnwrap(URL(string: "http://kyumux-loopback.localtest.me:3000/"))
 
         panel.webView.loadHTMLString(
             "<!doctype html><html><body>remote loopback bridge</body></html>",
@@ -1311,7 +1311,7 @@ final class BrowserPanelRemoteStoreTests: XCTestCase {
 
         XCTAssertEqual(
             result,
-            #"["http://cmux-loopback.localtest.me:3000/frontend","http://cmux-loopback.localtest.me:8000/api","http://api.cmux-loopback.localtest.me:8000/v1","ws://cmux-loopback.localtest.me:5173/hmr","wss://localhost:5173/hmr","https://localhost:9443/secure"]"#
+            #"["http://kyumux-loopback.localtest.me:3000/frontend","http://kyumux-loopback.localtest.me:8000/api","http://api.kyumux-loopback.localtest.me:8000/v1","ws://kyumux-loopback.localtest.me:5173/hmr","wss://localhost:5173/hmr","https://localhost:9443/secure"]"#
         )
     }
 
@@ -1366,7 +1366,7 @@ final class BrowserPanelRemoteStoreTests: XCTestCase {
                 relayPort: 64001,
                 relayID: "relay-store-dest",
                 relayToken: String(repeating: "a", count: 64),
-                localSocketPath: "/tmp/cmux-store-dest.sock",
+                localSocketPath: "/tmp/kyumux-store-dest.sock",
                 terminalStartupCommand: "ssh cmux-macmini"
             ),
             autoConnect: false
@@ -1398,7 +1398,7 @@ final class BrowserPanelRemoteStoreTests: XCTestCase {
                 relayPort: 64002,
                 relayID: "relay-store-source",
                 relayToken: String(repeating: "b", count: 64),
-                localSocketPath: "/tmp/cmux-store-source.sock",
+                localSocketPath: "/tmp/kyumux-store-source.sock",
                 terminalStartupCommand: "ssh cmux-macmini"
             ),
             autoConnect: false
@@ -1435,7 +1435,7 @@ final class BrowserPanelRemoteStoreTests: XCTestCase {
             relayPort: 64000,
             relayID: "relay-test",
             relayToken: String(repeating: "a", count: 64),
-            localSocketPath: "/tmp/cmux-test.sock",
+            localSocketPath: "/tmp/kyumux-test.sock",
             terminalStartupCommand: "ssh cmux-macmini"
         )
 
@@ -1463,13 +1463,13 @@ final class WorkspaceRemoteConfigurationTransportKeyTests: XCTestCase {
             sshOptions: [
                 "Compression=yes",
                 "ControlMaster=auto",
-                "ControlPath=/tmp/cmux-ssh-501-64000-%C",
+                "ControlPath=/tmp/kyumux-ssh-501-64000-%C",
             ],
             localProxyPort: 9000,
             relayPort: 64000,
             relayID: "relay-a",
             relayToken: "token-a",
-            localSocketPath: "/tmp/cmux-a.sock",
+            localSocketPath: "/tmp/kyumux-a.sock",
             terminalStartupCommand: "ssh cmux-macmini"
         )
         let second = WorkspaceRemoteConfiguration(
@@ -1479,13 +1479,13 @@ final class WorkspaceRemoteConfigurationTransportKeyTests: XCTestCase {
             sshOptions: [
                 "Compression=yes",
                 "ControlMaster=auto",
-                "ControlPath=/tmp/cmux-ssh-501-64001-%C",
+                "ControlPath=/tmp/kyumux-ssh-501-64001-%C",
             ],
             localProxyPort: 9000,
             relayPort: 64001,
             relayID: "relay-b",
             relayToken: "token-b",
-            localSocketPath: "/tmp/cmux-b.sock",
+            localSocketPath: "/tmp/kyumux-b.sock",
             terminalStartupCommand: "ssh cmux-macmini"
         )
 
@@ -1496,7 +1496,7 @@ final class WorkspaceRemoteConfigurationTransportKeyTests: XCTestCase {
 final class WorkspaceRemoteSSHCleanupTests: XCTestCase {
     func testOrphanedCMUXRemoteSSHPIDsMatchesOnlyParentOneRelayAndDaemonTransports() {
         let psOutput = """
-          101 1 /usr/bin/ssh -N -T -S none -o ControlPath=/tmp/cmux-ssh-501-56080-%C -R 127.0.0.1:56080:127.0.0.1:64048 cmux-macmini
+          101 1 /usr/bin/ssh -N -T -S none -o ControlPath=/tmp/kyumux-ssh-501-56080-%C -R 127.0.0.1:56080:127.0.0.1:64048 cmux-macmini
           102 1 /usr/bin/ssh -T -S none -o RequestTTY=no cmux-macmini sh -c 'exec .cmux/bin/cmuxd-remote/0.63.1/darwin-arm64/cmuxd-remote serve --stdio'
           103 999 /usr/bin/ssh -N -T -S none -R 127.0.0.1:56081:127.0.0.1:64049 cmux-macmini
           104 1 /usr/bin/ssh -tt cmux-macmini
@@ -1863,9 +1863,9 @@ final class SocketControlSettingsTests: XCTestCase {
     func testStableReleaseIgnoresAmbientSocketOverrideByDefault() {
         let path = SocketControlSettings.socketPath(
             environment: [
-                "CMUX_SOCKET_PATH": "/tmp/cmux-debug-issue-153-tmux-compat.sock",
+                "CMUX_SOCKET_PATH": "/tmp/kyumux-debug-issue-153-tmux-compat.sock",
             ],
-            bundleIdentifier: "com.cmuxterm.app",
+            bundleIdentifier: "com.kyumux.app",
             isDebugBuild: false,
             probeStableDefaultPathEntry: { _ in .missing }
         )
@@ -1876,58 +1876,58 @@ final class SocketControlSettingsTests: XCTestCase {
     func testNightlyReleaseUsesDedicatedDefaultAndIgnoresAmbientSocketOverride() {
         let path = SocketControlSettings.socketPath(
             environment: [
-                "CMUX_SOCKET_PATH": "/tmp/cmux-debug-issue-153-tmux-compat.sock",
+                "CMUX_SOCKET_PATH": "/tmp/kyumux-debug-issue-153-tmux-compat.sock",
             ],
-            bundleIdentifier: "com.cmuxterm.app.nightly",
+            bundleIdentifier: "com.kyumux.app.nightly",
             isDebugBuild: false,
             probeStableDefaultPathEntry: { _ in .missing }
         )
 
-        XCTAssertEqual(path, "/tmp/cmux-nightly.sock")
+        XCTAssertEqual(path, "/tmp/kyumux-nightly.sock")
     }
 
     func testDebugBundleHonorsSocketOverrideWithoutOptInFlag() {
         let path = SocketControlSettings.socketPath(
             environment: [
-                "CMUX_SOCKET_PATH": "/tmp/cmux-debug-my-tag.sock",
+                "CMUX_SOCKET_PATH": "/tmp/kyumux-debug-my-tag.sock",
             ],
-            bundleIdentifier: "com.cmuxterm.app.debug.my-tag",
+            bundleIdentifier: "com.kyumux.app.debug.my-tag",
             isDebugBuild: false
         )
 
-        XCTAssertEqual(path, "/tmp/cmux-debug-my-tag.sock")
+        XCTAssertEqual(path, "/tmp/kyumux-debug-my-tag.sock")
     }
 
     func testStagingBundleHonorsSocketOverrideWithoutOptInFlag() {
         let path = SocketControlSettings.socketPath(
             environment: [
-                "CMUX_SOCKET_PATH": "/tmp/cmux-staging-my-tag.sock",
+                "CMUX_SOCKET_PATH": "/tmp/kyumux-staging-my-tag.sock",
             ],
-            bundleIdentifier: "com.cmuxterm.app.staging.my-tag",
+            bundleIdentifier: "com.kyumux.app.staging.my-tag",
             isDebugBuild: false
         )
 
-        XCTAssertEqual(path, "/tmp/cmux-staging-my-tag.sock")
+        XCTAssertEqual(path, "/tmp/kyumux-staging-my-tag.sock")
     }
 
     func testStableReleaseCanOptInToSocketOverride() {
         let path = SocketControlSettings.socketPath(
             environment: [
-                "CMUX_SOCKET_PATH": "/tmp/cmux-debug-forced.sock",
+                "CMUX_SOCKET_PATH": "/tmp/kyumux-debug-forced.sock",
                 "CMUX_ALLOW_SOCKET_OVERRIDE": "1",
             ],
-            bundleIdentifier: "com.cmuxterm.app",
+            bundleIdentifier: "com.kyumux.app",
             isDebugBuild: false,
             probeStableDefaultPathEntry: { _ in .missing }
         )
 
-        XCTAssertEqual(path, "/tmp/cmux-debug-forced.sock")
+        XCTAssertEqual(path, "/tmp/kyumux-debug-forced.sock")
     }
 
     func testDefaultSocketPathByChannel() {
         XCTAssertEqual(
             SocketControlSettings.defaultSocketPath(
-                bundleIdentifier: "com.cmuxterm.app",
+                bundleIdentifier: "com.kyumux.app",
                 isDebugBuild: false,
                 probeStableDefaultPathEntry: { _ in .missing }
             ),
@@ -1935,33 +1935,33 @@ final class SocketControlSettingsTests: XCTestCase {
         )
         XCTAssertEqual(
             SocketControlSettings.defaultSocketPath(
-                bundleIdentifier: "com.cmuxterm.app.nightly",
+                bundleIdentifier: "com.kyumux.app.nightly",
                 isDebugBuild: false,
                 probeStableDefaultPathEntry: { _ in .missing }
             ),
-            "/tmp/cmux-nightly.sock"
+            "/tmp/kyumux-nightly.sock"
         )
         XCTAssertEqual(
             SocketControlSettings.defaultSocketPath(
-                bundleIdentifier: "com.cmuxterm.app.debug.tag",
+                bundleIdentifier: "com.kyumux.app.debug.tag",
                 isDebugBuild: false,
                 probeStableDefaultPathEntry: { _ in .missing }
             ),
-            "/tmp/cmux-debug.sock"
+            "/tmp/kyumux-debug.sock"
         )
         XCTAssertEqual(
             SocketControlSettings.defaultSocketPath(
-                bundleIdentifier: "com.cmuxterm.app.staging.tag",
+                bundleIdentifier: "com.kyumux.app.staging.tag",
                 isDebugBuild: false,
                 probeStableDefaultPathEntry: { _ in .missing }
             ),
-            "/tmp/cmux-staging.sock"
+            "/tmp/kyumux-staging.sock"
         )
     }
 
     func testStableReleaseFallsBackToUserScopedSocketWhenStablePathOwnedByDifferentUser() {
         let path = SocketControlSettings.defaultSocketPath(
-            bundleIdentifier: "com.cmuxterm.app",
+            bundleIdentifier: "com.kyumux.app",
             isDebugBuild: false,
             currentUserID: 501,
             probeStableDefaultPathEntry: { _ in .socket(ownerUserID: 0) }
@@ -1972,7 +1972,7 @@ final class SocketControlSettingsTests: XCTestCase {
 
     func testStableReleaseFallsBackToUserScopedSocketWhenStablePathIsBlockedByNonSocketEntry() {
         let path = SocketControlSettings.defaultSocketPath(
-            bundleIdentifier: "com.cmuxterm.app",
+            bundleIdentifier: "com.kyumux.app",
             isDebugBuild: false,
             currentUserID: 501,
             probeStableDefaultPathEntry: { _ in .other(ownerUserID: 501) }
@@ -1985,7 +1985,7 @@ final class SocketControlSettingsTests: XCTestCase {
         XCTAssertTrue(
             SocketControlSettings.shouldBlockUntaggedDebugLaunch(
                 environment: [:],
-                bundleIdentifier: "com.cmuxterm.app.debug",
+                bundleIdentifier: "com.kyumux.app.debug",
                 isDebugBuild: true
             )
         )
@@ -1995,7 +1995,7 @@ final class SocketControlSettingsTests: XCTestCase {
         XCTAssertFalse(
             SocketControlSettings.shouldBlockUntaggedDebugLaunch(
                 environment: ["CMUX_TAG": "tests-v1"],
-                bundleIdentifier: "com.cmuxterm.app.debug",
+                bundleIdentifier: "com.kyumux.app.debug",
                 isDebugBuild: true
             )
         )
@@ -2005,7 +2005,7 @@ final class SocketControlSettingsTests: XCTestCase {
         XCTAssertFalse(
             SocketControlSettings.shouldBlockUntaggedDebugLaunch(
                 environment: [:],
-                bundleIdentifier: "com.cmuxterm.app.debug.tests-v1",
+                bundleIdentifier: "com.kyumux.app.debug.tests-v1",
                 isDebugBuild: true
             )
         )
@@ -2015,7 +2015,7 @@ final class SocketControlSettingsTests: XCTestCase {
         XCTAssertFalse(
             SocketControlSettings.shouldBlockUntaggedDebugLaunch(
                 environment: [:],
-                bundleIdentifier: "com.cmuxterm.app.debug",
+                bundleIdentifier: "com.kyumux.app.debug",
                 isDebugBuild: false
             )
         )
@@ -2025,7 +2025,7 @@ final class SocketControlSettingsTests: XCTestCase {
         XCTAssertFalse(
             SocketControlSettings.shouldBlockUntaggedDebugLaunch(
                 environment: ["XCTestConfigurationFilePath": "/tmp/fake.xctestconfiguration"],
-                bundleIdentifier: "com.cmuxterm.app.debug",
+                bundleIdentifier: "com.kyumux.app.debug",
                 isDebugBuild: true
             )
         )
@@ -2035,7 +2035,7 @@ final class SocketControlSettingsTests: XCTestCase {
         XCTAssertFalse(
             SocketControlSettings.shouldBlockUntaggedDebugLaunch(
                 environment: ["XCInjectBundle": "/tmp/fake.xctest"],
-                bundleIdentifier: "com.cmuxterm.app.debug",
+                bundleIdentifier: "com.kyumux.app.debug",
                 isDebugBuild: true
             )
         )
@@ -2045,7 +2045,7 @@ final class SocketControlSettingsTests: XCTestCase {
         XCTAssertFalse(
             SocketControlSettings.shouldBlockUntaggedDebugLaunch(
                 environment: ["DYLD_INSERT_LIBRARIES": "/usr/lib/libXCTestBundleInject.dylib"],
-                bundleIdentifier: "com.cmuxterm.app.debug",
+                bundleIdentifier: "com.kyumux.app.debug",
                 isDebugBuild: true
             )
         )
@@ -2057,7 +2057,7 @@ final class SocketControlSettingsTests: XCTestCase {
         XCTAssertFalse(
             SocketControlSettings.shouldBlockUntaggedDebugLaunch(
                 environment: ["CMUX_UI_TEST_MODE": "1"],
-                bundleIdentifier: "com.cmuxterm.app.debug",
+                bundleIdentifier: "com.kyumux.app.debug",
                 isDebugBuild: true
             )
         )
@@ -2068,9 +2068,9 @@ final class UITestLaunchManifestTests: XCTestCase {
     func testManifestPathReadsArgumentValue() {
         XCTAssertEqual(
             UITestLaunchManifest.manifestPath(
-                from: ["cmux", "-cmuxUITestLaunchManifest", "/tmp/cmux-ui-test-launch.json"]
+                from: ["cmux", "-cmuxUITestLaunchManifest", "/tmp/kyumux-ui-test-launch.json"]
             ),
-            "/tmp/cmux-ui-test-launch.json"
+            "/tmp/kyumux-ui-test-launch.json"
         )
     }
 
@@ -2084,12 +2084,12 @@ final class UITestLaunchManifestTests: XCTestCase {
 
     func testApplyIfPresentDecodesEnvironmentPayload() {
         let payload = """
-        {"environment":{"CMUX_TAG":"ui-tests-display","CMUX_SOCKET_PATH":"/tmp/cmux-ui-tests.sock"}}
+        {"environment":{"CMUX_TAG":"ui-tests-display","CMUX_SOCKET_PATH":"/tmp/kyumux-ui-tests.sock"}}
         """.data(using: .utf8)!
         var applied: [String: String] = [:]
 
         UITestLaunchManifest.applyIfPresent(
-            arguments: ["cmux", UITestLaunchManifest.argumentName, "/tmp/cmux-ui-test-launch.json"],
+            arguments: ["cmux", UITestLaunchManifest.argumentName, "/tmp/kyumux-ui-test-launch.json"],
             loadData: { _ in payload },
             applyEnvironment: { key, value in
                 applied[key] = value
@@ -2097,7 +2097,7 @@ final class UITestLaunchManifestTests: XCTestCase {
         )
 
         XCTAssertEqual(applied["CMUX_TAG"], "ui-tests-display")
-        XCTAssertEqual(applied["CMUX_SOCKET_PATH"], "/tmp/cmux-ui-tests.sock")
+        XCTAssertEqual(applied["CMUX_SOCKET_PATH"], "/tmp/kyumux-ui-tests.sock")
     }
 }
 
@@ -3218,7 +3218,7 @@ final class ZshShellIntegrationHandoffTests: XCTestCase {
             command: "_cmux_preexec tmux; print -r -- READY",
             extraEnvironment: [
                 "PATH": "\(binDir.path):/usr/bin:/bin:/usr/sbin:/sbin",
-                "CMUX_SOCKET_PATH": "/tmp/cmux-current.sock",
+                "CMUX_SOCKET_PATH": "/tmp/kyumux-current.sock",
                 "CMUX_TAG": "feat-tmux-notification-attention-state",
                 "CMUX_WORKSPACE_ID": "11111111-1111-1111-1111-111111111111",
                 "CMUX_SURFACE_ID": "22222222-2222-2222-2222-222222222222",
@@ -3229,7 +3229,7 @@ final class ZshShellIntegrationHandoffTests: XCTestCase {
 
         let log = (try? String(contentsOf: logPath, encoding: .utf8)) ?? ""
         XCTAssertTrue(log.contains("set-environment -g CMUX_TAG feat-tmux-notification-attention-state"), log)
-        XCTAssertTrue(log.contains("set-environment -g CMUX_SOCKET_PATH /tmp/cmux-current.sock"), log)
+        XCTAssertTrue(log.contains("set-environment -g CMUX_SOCKET_PATH /tmp/kyumux-current.sock"), log)
         XCTAssertTrue(log.contains("set-environment -g CMUX_WORKSPACE_ID 11111111-1111-1111-1111-111111111111"), log)
         XCTAssertFalse(log.contains("set-environment -g CMUX_SURFACE_ID"), log)
         XCTAssertFalse(log.contains("set-environment -g CMUX_PANEL_ID"), log)
@@ -3265,7 +3265,7 @@ final class ZshShellIntegrationHandoffTests: XCTestCase {
             command: "_cmux_preexec tmux; print -r -- READY",
             extraEnvironment: [
                 "PATH": "\(binDir.path):/usr/bin:/bin:/usr/sbin:/sbin",
-                "CMUX_SOCKET_PATH": "/tmp/cmux-current.sock",
+                "CMUX_SOCKET_PATH": "/tmp/kyumux-current.sock",
                 "CMUX_TAG": "feat-tmux-notification-attention-state",
                 "CMUX_WORKSPACE_ID": "11111111-1111-1111-1111-111111111111",
                 "CMUX_SURFACE_ID": "22222222-2222-2222-2222-222222222222",
@@ -3293,7 +3293,7 @@ final class ZshShellIntegrationHandoffTests: XCTestCase {
             contents: """
             #!/bin/sh
             if [ "$1" = "show-environment" ] && [ "$2" = "-g" ]; then
-              printf '%s\\n' 'CMUX_SOCKET_PATH=/tmp/cmux-current.sock'
+              printf '%s\\n' 'CMUX_SOCKET_PATH=/tmp/kyumux-current.sock'
               printf '%s\\n' 'CMUX_TAG=feat-tmux-notification-attention-state'
               printf '%s\\n' 'CMUX_WORKSPACE_ID=11111111-1111-1111-1111-111111111111'
               printf '%s\\n' 'CMUX_SURFACE_ID=99999999-9999-9999-9999-999999999999'
@@ -3312,7 +3312,7 @@ final class ZshShellIntegrationHandoffTests: XCTestCase {
             extraEnvironment: [
                 "PATH": "\(binDir.path):/usr/bin:/bin:/usr/sbin:/sbin",
                 "TMUX": "/tmp/tmux-stale,123,0",
-                "CMUX_SOCKET_PATH": "/tmp/cmux-stale.sock",
+                "CMUX_SOCKET_PATH": "/tmp/kyumux-stale.sock",
                 "CMUX_TAG": "feat-tmux-integration-experiments",
                 "CMUX_WORKSPACE_ID": "AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA",
                 "CMUX_SURFACE_ID": "22222222-2222-2222-2222-222222222222",
@@ -3323,7 +3323,7 @@ final class ZshShellIntegrationHandoffTests: XCTestCase {
 
         XCTAssertEqual(
             output,
-            "feat-tmux-notification-attention-state|/tmp/cmux-current.sock|11111111-1111-1111-1111-111111111111|22222222-2222-2222-2222-222222222222|22222222-2222-2222-2222-222222222222"
+            "feat-tmux-notification-attention-state|/tmp/kyumux-current.sock|11111111-1111-1111-1111-111111111111|22222222-2222-2222-2222-222222222222|22222222-2222-2222-2222-222222222222"
         )
     }
 

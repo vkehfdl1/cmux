@@ -587,8 +587,8 @@ final class FinderFileDropRegressionTests: XCTestCase {
     func testFileExplorerRelativePathInsertionStandardizesMacOSSymlinkedRoots() {
         XCTAssertEqual(
             FileExplorerTerminalPathInsertion.relativePath(
-                for: "/private/tmp/cmux-project/Sources/App.swift",
-                rootPath: "/tmp/cmux-project"
+                for: "/private/tmp/kyumux-project/Sources/App.swift",
+                rootPath: "/tmp/kyumux-project"
             ),
             "Sources/App.swift"
         )

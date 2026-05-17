@@ -3,8 +3,8 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CRATE_DIR="${ROOT}/Native/CommandPaletteNucleoFFI"
-DERIVED_DATA="${CMUX_NUCLEO_FFI_DERIVED_DATA:-/tmp/cmux-nucleo-ffi-unit}"
-LOG_PATH="${CMUX_NUCLEO_FFI_LOG:-/tmp/cmux-nucleo-ffi-tests.log}"
+DERIVED_DATA="${CMUX_NUCLEO_FFI_DERIVED_DATA:-/tmp/kyumux-nucleo-ffi-unit}"
+LOG_PATH="${CMUX_NUCLEO_FFI_LOG:-/tmp/kyumux-nucleo-ffi-tests.log}"
 
 cargo build --manifest-path "${CRATE_DIR}/Cargo.toml" --release
 

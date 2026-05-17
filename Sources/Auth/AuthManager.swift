@@ -126,7 +126,7 @@ extension AuthClientProtocol {
 }
 
 enum AuthKeychainServiceName {
-    static let stableFallback = "com.cmuxterm.app.auth"
+    static let stableFallback = "com.kyumux.app.auth"
 
     static func make(bundleIdentifier: String? = Bundle.main.bundleIdentifier) -> String {
         guard let bundleIdentifier, !bundleIdentifier.isEmpty else {
@@ -742,7 +742,7 @@ final class AuthManager: ObservableObject {
         }
     }
 
-    /// DEBUG-only append to /tmp/cmux-auth-debug.log. In Release builds this
+    /// DEBUG-only append to /tmp/kyumux-auth-debug.log. In Release builds this
     /// mirrors the sanitized unified log entry so token-derived material and
     /// user emails never land in a world-traversable file.
     nonisolated static func authLog(_ message: String) {
@@ -762,8 +762,8 @@ final class AuthManager: ObservableObject {
         #endif
     }
 
-    private nonisolated static let authLogger = Logger(subsystem: "com.cmuxterm.app", category: "auth")
-    private nonisolated static let authDebugLogPath = "/tmp/cmux-auth-debug.log"
+    private nonisolated static let authLogger = Logger(subsystem: "com.kyumux.app", category: "auth")
+    private nonisolated static let authDebugLogPath = "/tmp/kyumux-auth-debug.log"
 
     private nonisolated static func authLogType(for message: String) -> OSLogType {
         let lowercased = message.lowercased()
@@ -965,7 +965,7 @@ final class AuthManager: ObservableObject {
             guard let id = Bundle(url: appURL)?.bundleIdentifier else { return true }
             if ownBundleIDs.contains(id) { return false }
             let lower = id.lowercased()
-            return !lower.hasPrefix("dev.cmux.") && !lower.hasPrefix("com.cmuxterm.")
+            return !lower.hasPrefix("dev.cmux.") && !lower.hasPrefix("com.kyumux.")
         }
         let config = NSWorkspace.OpenConfiguration()
         config.createsNewApplicationInstance = false
