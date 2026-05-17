@@ -291,6 +291,16 @@ final class CmuxMainRunLoopStallMonitor {
 
     private init() {}
 
+    // App-singleton: deinit will not fire in practice, but we provide
+    // explicit teardown so the CFRunLoopObserver lifecycle is correct
+    // and this isn't copied as a leak-prone pattern elsewhere.
+    deinit {
+        if let observer {
+            CFRunLoopRemoveObserver(CFRunLoopGetMain(), observer, .commonModes)
+        }
+        observer = nil
+    }
+
     func installIfNeeded() {
         guard CmuxTypingTiming.isEnabled else { return }
         guard !installed else { return }
@@ -383,6 +393,16 @@ final class CmuxMainThreadTurnProfiler {
     private var buckets: [String: BucketStats] = [:]
 
     private init() {}
+
+    // App-singleton: deinit will not fire in practice, but we provide
+    // explicit teardown so the CFRunLoopObserver lifecycle is correct
+    // and this isn't copied as a leak-prone pattern elsewhere.
+    deinit {
+        if let observer {
+            CFRunLoopRemoveObserver(CFRunLoopGetMain(), observer, .commonModes)
+        }
+        observer = nil
+    }
 
     @inline(__always)
     static func endMeasure(_ bucket: String, startedAt: TimeInterval?) {
