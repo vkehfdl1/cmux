@@ -3965,6 +3965,14 @@ final class BrowserPanel: Panel, ObservableObject {
         webViewCancellables.removeAll()
         faviconTask?.cancel()
         faviconTask = nil
+
+        let userContentController = webView.configuration.userContentController
+        userContentController.removeAllScriptMessageHandlers()
+        userContentController.removeAllUserScripts()
+        reactGrabMessageHandler = nil
+
+        BrowserWindowPortalRegistry.detach(webView: webView)
+        webView.removeFromSuperview()
     }
 
     // MARK: - Popup window management
