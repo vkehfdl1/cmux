@@ -335,6 +335,7 @@
 		C0DEC0DE000000000000F202 /* CommandPaletteNucleoFFILibrarySupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DEC0DE000000000000F201 /* CommandPaletteNucleoFFILibrarySupport.swift */; };
 		C0DEC0DE000000000000F204 /* CommandPaletteNucleoFixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DEC0DE000000000000F203 /* CommandPaletteNucleoFixtures.swift */; };
 		A500RG01 /* ReactGrab.swift in Sources */ = {isa = PBXBuildFile; fileRef = A500RG00 /* ReactGrab.swift */; };
+		A500WMS01 /* WorkspaceMemorySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A500WMS00 /* WorkspaceMemorySettings.swift */; };
 		A5F10011A1B2C3D4E5F60719 /* KeyboardShortcutSettingsFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F10010A1B2C3D4E5F60719 /* KeyboardShortcutSettingsFileStore.swift */; };
 		A5F10013A1B2C3D4E5F60719 /* KeyboardShortcutSettingsFileStore+Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F10012A1B2C3D4E5F60719 /* KeyboardShortcutSettingsFileStore+Template.swift */; };
 		AA1B2C3D4E5F60718 /* BonsplitTabDragUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B2C3D4E5F60719 /* BonsplitTabDragUITests.swift */; };
@@ -860,6 +861,7 @@
 		C0DEC0DE000000000000F201 /* CommandPaletteNucleoFFILibrarySupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandPaletteNucleoFFILibrarySupport.swift; sourceTree = "<group>"; };
 		C0DEC0DE000000000000F203 /* CommandPaletteNucleoFixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandPaletteNucleoFixtures.swift; sourceTree = "<group>"; };
 		A500RG00 /* ReactGrab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Panels/ReactGrab.swift; sourceTree = "<group>"; };
+		A500WMS00 /* WorkspaceMemorySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceMemorySettings.swift; sourceTree = "<group>"; };
 		A5F10010A1B2C3D4E5F60719 /* KeyboardShortcutSettingsFileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcutSettingsFileStore.swift; sourceTree = "<group>"; };
 		A5F10012A1B2C3D4E5F60719 /* KeyboardShortcutSettingsFileStore+Template.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyboardShortcutSettingsFileStore+Template.swift"; sourceTree = "<group>"; };
 		C34670030000000000000002 /* KeyboardShortcutContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcutContext.swift; sourceTree = "<group>"; };
@@ -1232,6 +1234,7 @@
 					A5001511 /* UITestRecorder.swift */,
 					A5001520 /* PostHogAnalytics.swift */,
 					A5001416 /* Workspace.swift */,
+					A500WMS00 /* WorkspaceMemorySettings.swift */,
 					D7AB3605C10DEF0000000004 /* WorkspaceCloseTabsBatching.swift */,
 					C3744E020000000000000001 /* Workspace+PanelLifecycle.swift */,
 					E30780000000000000000001 /* WorkspaceRemoteConfiguration.swift */,
@@ -1944,6 +1947,7 @@
 				A5001501 /* UITestRecorder.swift in Sources */,
 				A5001521 /* PostHogAnalytics.swift in Sources */,
 					A5001406 /* Workspace.swift in Sources */,
+					A500WMS01 /* WorkspaceMemorySettings.swift in Sources */,
 					D7AB3605C10DEF0000000003 /* WorkspaceCloseTabsBatching.swift in Sources */,
 					C3744E010000000000000001 /* Workspace+PanelLifecycle.swift in Sources */,
 					E30780000000000000000002 /* WorkspaceRemoteConfiguration.swift in Sources */,

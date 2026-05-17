@@ -11023,6 +11023,33 @@ final class Workspace: Identifiable, ObservableObject {
         terminalInheritanceFontPointsByPanelId.removeAll(keepingCapacity: false)
         lastTerminalConfigInheritancePanelId = nil
         lastTerminalConfigInheritanceFontPoints = nil
+        if WorkspaceMemorySettings.aggressiveCleanupOnTeardown {
+            aggressivelyClearPerPanelState()
+        }
+    }
+
+    private func aggressivelyClearPerPanelState() {
+        panelSubscriptions.values.forEach { $0.cancel() }
+        panelSubscriptions.removeAll(keepingCapacity: false)
+        panels.removeAll(keepingCapacity: false)
+        panelDirectories.removeAll(keepingCapacity: false)
+        panelTitles.removeAll(keepingCapacity: false)
+        panelCustomTitles.removeAll(keepingCapacity: false)
+        statusEntries.removeAll(keepingCapacity: false)
+        metadataBlocks.removeAll(keepingCapacity: false)
+        logEntries.removeAll(keepingCapacity: false)
+        panelGitBranches.removeAll(keepingCapacity: false)
+        panelPullRequests.removeAll(keepingCapacity: false)
+        surfaceListeningPorts.removeAll(keepingCapacity: false)
+        agentListeningPorts.removeAll(keepingCapacity: false)
+        surfaceTTYNames.removeAll(keepingCapacity: false)
+        panelShellActivityStates.removeAll(keepingCapacity: false)
+        agentPIDs.removeAll(keepingCapacity: false)
+        agentPIDPanelIdsByKey.removeAll(keepingCapacity: false)
+        agentPIDKeysByPanelId.removeAll(keepingCapacity: false)
+        restoredAgentSnapshotsByPanelId.removeAll(keepingCapacity: false)
+        restoredAgentResumeStatesByPanelId.removeAll(keepingCapacity: false)
+        invalidatedRestoredAgentFingerprintsByPanelId.removeAll(keepingCapacity: false)
     }
 
     /// Close a panel.
