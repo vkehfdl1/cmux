@@ -335,6 +335,7 @@
 		C0DEC0DE000000000000F202 /* CommandPaletteNucleoFFILibrarySupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DEC0DE000000000000F201 /* CommandPaletteNucleoFFILibrarySupport.swift */; };
 		C0DEC0DE000000000000F204 /* CommandPaletteNucleoFixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DEC0DE000000000000F203 /* CommandPaletteNucleoFixtures.swift */; };
 		A500RG01 /* ReactGrab.swift in Sources */ = {isa = PBXBuildFile; fileRef = A500RG00 /* ReactGrab.swift */; };
+		A500WSMH01 /* WeakScriptMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A500WSMH00 /* WeakScriptMessageHandler.swift */; };
 		A5F10011A1B2C3D4E5F60719 /* KeyboardShortcutSettingsFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F10010A1B2C3D4E5F60719 /* KeyboardShortcutSettingsFileStore.swift */; };
 		A5F10013A1B2C3D4E5F60719 /* KeyboardShortcutSettingsFileStore+Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F10012A1B2C3D4E5F60719 /* KeyboardShortcutSettingsFileStore+Template.swift */; };
 		AA1B2C3D4E5F60718 /* BonsplitTabDragUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1B2C3D4E5F60719 /* BonsplitTabDragUITests.swift */; };
@@ -860,6 +861,7 @@
 		C0DEC0DE000000000000F201 /* CommandPaletteNucleoFFILibrarySupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandPaletteNucleoFFILibrarySupport.swift; sourceTree = "<group>"; };
 		C0DEC0DE000000000000F203 /* CommandPaletteNucleoFixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandPaletteNucleoFixtures.swift; sourceTree = "<group>"; };
 		A500RG00 /* ReactGrab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Panels/ReactGrab.swift; sourceTree = "<group>"; };
+		A500WSMH00 /* WeakScriptMessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Panels/WeakScriptMessageHandler.swift; sourceTree = "<group>"; };
 		A5F10010A1B2C3D4E5F60719 /* KeyboardShortcutSettingsFileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcutSettingsFileStore.swift; sourceTree = "<group>"; };
 		A5F10012A1B2C3D4E5F60719 /* KeyboardShortcutSettingsFileStore+Template.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyboardShortcutSettingsFileStore+Template.swift"; sourceTree = "<group>"; };
 		C34670030000000000000002 /* KeyboardShortcutContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcutContext.swift; sourceTree = "<group>"; };
@@ -1325,6 +1327,7 @@
 				B3770BA00000000000000002 /* BrowserAutomation.swift */,
 				D7AB00000000000000000008 /* BrowserPanel+MoveTabToNewWorkspace.swift */,
 				A500RG00 /* ReactGrab.swift */,
+				A500WSMH00 /* WeakScriptMessageHandler.swift */,
 				A5001413 /* TerminalPanelView.swift */,
 				A5001414 /* BrowserPanelView.swift */,
 				B0A501000000000000000002 /* BrowserOmnibarAppKitBridge.swift */,
@@ -2041,6 +2044,7 @@
 				B3770BA00000000000000001 /* BrowserAutomation.swift in Sources */,
 				D7AB00000000000000000007 /* BrowserPanel+MoveTabToNewWorkspace.swift in Sources */,
 				A500RG01 /* ReactGrab.swift in Sources */,
+				A500WSMH01 /* WeakScriptMessageHandler.swift in Sources */,
 				A5001403 /* TerminalPanelView.swift in Sources */,
 				A5001404 /* BrowserPanelView.swift in Sources */,
 				B0A501000000000000000001 /* BrowserOmnibarAppKitBridge.swift in Sources */,

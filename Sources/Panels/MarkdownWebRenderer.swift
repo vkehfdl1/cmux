@@ -62,7 +62,10 @@ struct MarkdownWebRenderer: NSViewRepresentable {
         // Bridge: JS posts to `cmuxLib` to request lazy-loaded libraries
         // (mermaid / vega-lite). Swift fetches the bundled source from the
         // app bundle and injects it via evaluateJavaScript.
-        config.userContentController.add(context.coordinator, name: "cmuxLib")
+        config.userContentController.add(
+            WeakScriptMessageHandler(delegate: context.coordinator),
+            name: "cmuxLib"
+        )
         let webView = MarkdownWebView(frame: .zero, configuration: config)
         webView.onPointerDown = onRequestPanelFocus
         webView.setValue(false, forKey: "drawsBackground")

@@ -223,7 +223,10 @@ extension BrowserPanel {
             self?.handleReactGrabBridgeMessage(message)
         }
         reactGrabMessageHandler = handler
-        webView.configuration.userContentController.add(handler, name: reactGrabMessageHandlerName)
+        webView.configuration.userContentController.add(
+            WeakScriptMessageHandler(delegate: handler),
+            name: reactGrabMessageHandlerName
+        )
     }
 
     func armReactGrabRoundTrip(returnTo panelId: UUID) {

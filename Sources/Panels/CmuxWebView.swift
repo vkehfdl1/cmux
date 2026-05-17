@@ -297,6 +297,12 @@ final class CmuxWebView: WKWebView {
     })();
     """
 
+    // Intentionally shared as an app-lifetime singleton (see
+    // `sharedPasteAsPlainTextFocusMessageHandler` below). Because the
+    // instance lives for the whole process, the WKUserContentController
+    // strong-ref does not leak across WKWebView teardown, so we don't wrap
+    // this in WeakScriptMessageHandler. Do NOT copy this pattern for
+    // per-webview handlers.
     private final class PasteAsPlainTextFocusMessageHandler: NSObject, WKScriptMessageHandler {
         func userContentController(
             _ userContentController: WKUserContentController,
