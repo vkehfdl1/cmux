@@ -6,6 +6,10 @@ cd "$(dirname "$0")/.."
 DEVELOPER_DIR="${DEVELOPER_DIR:-/Applications/Xcode.app/Contents/Developer}"
 export DEVELOPER_DIR
 
+if [[ -x "$HOME/.cargo/bin/cargo" ]]; then
+  export PATH="$HOME/.cargo/bin:$PATH"
+fi
+
 DERIVED_DATA="${DERIVED_DATA:-$HOME/Library/Developer/Xcode/DerivedData/kyumux-install}"
 APP_NAME="Kyu-mux"
 DEST="/Applications/${APP_NAME}.app"
