@@ -700,11 +700,16 @@ final class TerminalNotificationStore: ObservableObject {
 
     @Published private(set) var notifications: [TerminalNotification] = [] {
         didSet {
+            if notifications.count > Self.maxRetainedNotifications {
+                notifications = Array(notifications.prefix(Self.maxRetainedNotifications))
+                return
+            }
             indexes = Self.buildIndexes(for: notifications)
             refreshUnreadPresentation()
             if !suppressNotificationDiffPublishing { CmuxEventBus.shared.publishNotificationChanges(oldValue: oldValue, newValue: notifications) }
         }
     }
+    private static let maxRetainedNotifications = 1000
     @Published private(set) var notificationMenuSnapshot = NotificationMenuSnapshotBuilder.make(notifications: [])
     // Workspace-level unread drives sidebar workspace badges; pane-level manual
     // unread remains owned by Workspace.manualUnreadPanelIds.
@@ -1190,6 +1195,25 @@ final class TerminalNotificationStore: ObservableObject {
     ) {
         guard let reservation else { return }
         lastNotificationDateByCooldownKey[reservation.key] = date
+        pruneCooldownDictsIfNeeded(now: date)
+    }
+
+    private static let cooldownPruneInterval: TimeInterval = 60
+    private static let cooldownEntryTTL: TimeInterval = notificationHookFailureThrottle * 2
+    private var lastCooldownPruneDate: Date?
+
+    private func pruneCooldownDictsIfNeeded(now: Date) {
+        if let last = lastCooldownPruneDate, now.timeIntervalSince(last) < Self.cooldownPruneInterval {
+            return
+        }
+        lastCooldownPruneDate = now
+        let cutoff = now.addingTimeInterval(-Self.cooldownEntryTTL)
+        lastNotificationDateByCooldownKey = lastNotificationDateByCooldownKey.filter { _, date in
+            date >= cutoff
+        }
+        lastNotificationHookFailureDateByKey = lastNotificationHookFailureDateByKey.filter { _, date in
+            date >= cutoff
+        }
     }
 
     private func restoreCooldownReservation(_ reservation: NotificationCooldownReservation?) {
@@ -1393,6 +1417,7 @@ final class TerminalNotificationStore: ObservableObject {
             return
         }
         lastNotificationHookFailureDateByKey[key] = now
+        pruneCooldownDictsIfNeeded(now: now)
         terminalNotificationLogger.error(
             "Notification hook failed hookId=\(failure.hookId, privacy: .public) sourcePath=\(failure.sourcePath ?? "<unknown>", privacy: .private) message=\(failure.message, privacy: .private)"
         )
