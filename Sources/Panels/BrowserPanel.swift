@@ -3956,6 +3956,7 @@ final class BrowserPanel: Panel, ObservableObject {
         }
 
         webView.stopLoading()
+        webView.loadHTMLString("", baseURL: nil)
         webView.navigationDelegate = nil
         webView.uiDelegate = nil
         navigationDelegate = nil
