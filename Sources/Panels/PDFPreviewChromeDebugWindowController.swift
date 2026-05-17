@@ -254,11 +254,11 @@ final class PDFPreviewChromeDebugWindowController: NSWindowController, NSWindowD
         window.isReleasedWhenClosed = false
         window.identifier = NSUserInterfaceItemIdentifier("cmux.pdfPreviewChromeDebug")
         window.center()
-        window.contentView = NSHostingView(rootView: PDFPreviewChromeDebugView(model: model))
         AppDelegate.shared?.applyWindowDecorations(to: window)
         super.init(window: window)
         window.delegate = self
         installToolbar(on: window)
+        installHostingViewIfNeeded()
     }
 
     @available(*, unavailable)
@@ -266,9 +266,19 @@ final class PDFPreviewChromeDebugWindowController: NSWindowController, NSWindowD
         fatalError("init(coder:) has not been implemented")
     }
 
+    private func installHostingViewIfNeeded() {
+        if window?.contentView is NSHostingView<PDFPreviewChromeDebugView> { return }
+        window?.contentView = NSHostingView(rootView: PDFPreviewChromeDebugView(model: model))
+    }
+
     func show() {
+        installHostingViewIfNeeded()
         window?.center()
         window?.makeKeyAndOrderFront(nil)
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        window?.contentView = NSView()
     }
 
     private func installToolbar(on window: NSWindow) {

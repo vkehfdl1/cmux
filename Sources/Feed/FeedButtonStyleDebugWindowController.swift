@@ -798,18 +798,28 @@ final class FeedButtonStyleDebugWindowController: NSWindowController, NSWindowDe
         window.identifier = NSUserInterfaceItemIdentifier("cmux.feedButtonStyleDebug")
         window.minSize = NSSize(width: 460, height: 520)
         window.center()
-        window.contentView = NSHostingView(rootView: FeedButtonStyleDebugView())
         AppDelegate.shared?.applyWindowDecorations(to: window)
         super.init(window: window)
         window.delegate = self
+        installHostingViewIfNeeded()
     }
 
     @available(*, unavailable)
     required init?(coder: NSCoder) { fatalError() }
 
+    private func installHostingViewIfNeeded() {
+        if window?.contentView is NSHostingView<FeedButtonStyleDebugView> { return }
+        window?.contentView = NSHostingView(rootView: FeedButtonStyleDebugView())
+    }
+
     func show() {
+        installHostingViewIfNeeded()
         window?.center()
         window?.makeKeyAndOrderFront(nil)
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        window?.contentView = NSView()
     }
 }
 

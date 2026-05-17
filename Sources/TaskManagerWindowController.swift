@@ -20,10 +20,10 @@ final class TaskManagerWindowController: NSWindowController, NSWindowDelegate {
         window.identifier = NSUserInterfaceItemIdentifier("cmux.taskManager")
         window.title = String(localized: "taskManager.windowTitle", defaultValue: "Task Manager")
         window.center()
-        window.contentView = NSHostingView(rootView: CmuxTaskManagerView(model: model))
         AppDelegate.shared?.applyWindowDecorations(to: window)
         super.init(window: window)
         window.delegate = self
+        installHostingViewIfNeeded()
     }
 
     @available(*, unavailable)
@@ -31,7 +31,13 @@ final class TaskManagerWindowController: NSWindowController, NSWindowDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
+    private func installHostingViewIfNeeded() {
+        if window?.contentView is NSHostingView<CmuxTaskManagerView> { return }
+        window?.contentView = NSHostingView(rootView: CmuxTaskManagerView(model: model))
+    }
+
     func show() {
+        installHostingViewIfNeeded()
         guard let window else { return }
         if !window.isVisible {
             window.center()
@@ -44,6 +50,7 @@ final class TaskManagerWindowController: NSWindowController, NSWindowDelegate {
 
     func windowWillClose(_ notification: Notification) {
         model.stop()
+        window?.contentView = NSView()
     }
 }
 

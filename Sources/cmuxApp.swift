@@ -1457,10 +1457,10 @@ private final class AboutTitlebarDebugWindowController: NSWindowController, NSWi
         window.isReleasedWhenClosed = false
         window.identifier = NSUserInterfaceItemIdentifier("cmux.aboutTitlebarDebug")
         window.center()
-        window.contentView = NSHostingView(rootView: AboutTitlebarDebugView())
         AppDelegate.shared?.applyWindowDecorations(to: window)
         super.init(window: window)
         window.delegate = self
+        installHostingViewIfNeeded()
     }
 
     @available(*, unavailable)
@@ -1468,10 +1468,20 @@ private final class AboutTitlebarDebugWindowController: NSWindowController, NSWi
         fatalError("init(coder:) has not been implemented")
     }
 
+    private func installHostingViewIfNeeded() {
+        if window?.contentView is NSHostingView<AboutTitlebarDebugView> { return }
+        window?.contentView = NSHostingView(rootView: AboutTitlebarDebugView())
+    }
+
     func show() {
+        installHostingViewIfNeeded()
         window?.center()
         window?.makeKeyAndOrderFront(nil)
         AboutTitlebarDebugStore.shared.applyToOpenWindows()
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        window?.contentView = NSView()
     }
 }
 
@@ -1676,10 +1686,10 @@ private final class DebugWindowControlsWindowController: NSWindowController, NSW
         window.isReleasedWhenClosed = false
         window.identifier = NSUserInterfaceItemIdentifier("cmux.debugWindowControls")
         window.center()
-        window.contentView = NSHostingView(rootView: DebugWindowControlsView())
         AppDelegate.shared?.applyWindowDecorations(to: window)
         super.init(window: window)
         window.delegate = self
+        installHostingViewIfNeeded()
     }
 
     @available(*, unavailable)
@@ -1687,9 +1697,19 @@ private final class DebugWindowControlsWindowController: NSWindowController, NSW
         fatalError("init(coder:) has not been implemented")
     }
 
+    private func installHostingViewIfNeeded() {
+        if window?.contentView is NSHostingView<DebugWindowControlsView> { return }
+        window?.contentView = NSHostingView(rootView: DebugWindowControlsView())
+    }
+
     func show() {
+        installHostingViewIfNeeded()
         window?.center()
         window?.makeKeyAndOrderFront(nil)
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        window?.contentView = NSView()
     }
 }
 
@@ -1927,10 +1947,10 @@ private final class BrowserImportHintDebugWindowController: NSWindowController, 
         window.isReleasedWhenClosed = false
         window.identifier = NSUserInterfaceItemIdentifier("cmux.browserImportHintDebug")
         window.center()
-        window.contentView = NSHostingView(rootView: BrowserImportHintDebugView())
         AppDelegate.shared?.applyWindowDecorations(to: window)
         super.init(window: window)
         window.delegate = self
+        installHostingViewIfNeeded()
     }
 
     @available(*, unavailable)
@@ -1938,9 +1958,19 @@ private final class BrowserImportHintDebugWindowController: NSWindowController, 
         fatalError("init(coder:) has not been implemented")
     }
 
+    private func installHostingViewIfNeeded() {
+        if window?.contentView is NSHostingView<BrowserImportHintDebugView> { return }
+        window?.contentView = NSHostingView(rootView: BrowserImportHintDebugView())
+    }
+
     func show() {
+        installHostingViewIfNeeded()
         window?.center()
         window?.makeKeyAndOrderFront(nil)
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        window?.contentView = NSView()
     }
 }
 
@@ -1964,10 +1994,19 @@ private final class BrowserProfilePopoverDebugWindowController: NSWindowControll
         window.isReleasedWhenClosed = false
         window.identifier = NSUserInterfaceItemIdentifier("cmux.browserProfilePopoverDebug")
         window.center()
-        window.contentView = NSHostingView(rootView: BrowserProfilePopoverDebugView())
         AppDelegate.shared?.applyWindowDecorations(to: window)
         super.init(window: window)
         window.delegate = self
+        installHostingViewIfNeeded()
+    }
+
+    private func installHostingViewIfNeeded() {
+        if window?.contentView is NSHostingView<BrowserProfilePopoverDebugView> { return }
+        window?.contentView = NSHostingView(rootView: BrowserProfilePopoverDebugView())
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        window?.contentView = NSView()
     }
 
     @available(*, unavailable)
@@ -1976,6 +2015,7 @@ private final class BrowserProfilePopoverDebugWindowController: NSWindowControll
     }
 
     func show() {
+        installHostingViewIfNeeded()
         window?.center()
         window?.makeKeyAndOrderFront(nil)
     }
@@ -2328,11 +2368,11 @@ private final class AboutWindowController: NSWindowController, NSWindowDelegate 
         window.isReleasedWhenClosed = false
         window.identifier = NSUserInterfaceItemIdentifier("cmux.about")
         window.center()
-        window.contentView = NSHostingView(rootView: AboutPanelView())
         AboutTitlebarDebugStore.shared.applyCurrentOptions(to: window, for: .about)
         AppDelegate.shared?.applyWindowDecorations(to: window)
         super.init(window: window)
         window.delegate = self
+        installHostingViewIfNeeded()
     }
 
     @available(*, unavailable)
@@ -2340,11 +2380,21 @@ private final class AboutWindowController: NSWindowController, NSWindowDelegate 
         fatalError("init(coder:) has not been implemented")
     }
 
+    private func installHostingViewIfNeeded() {
+        if window?.contentView is NSHostingView<AboutPanelView> { return }
+        window?.contentView = NSHostingView(rootView: AboutPanelView())
+    }
+
     func show() {
+        installHostingViewIfNeeded()
         guard let window else { return }
         AboutTitlebarDebugStore.shared.applyCurrentOptions(to: window, for: .about)
         window.center()
         window.makeKeyAndOrderFront(nil)
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        window?.contentView = NSView()
     }
 }
 
@@ -2362,9 +2412,9 @@ private final class AcknowledgmentsWindowController: NSWindowController, NSWindo
         window.title = String(localized: "about.licenses.windowTitle", defaultValue: "Third-Party Licenses")
         window.identifier = NSUserInterfaceItemIdentifier("cmux.licenses")
         window.center()
-        window.contentView = NSHostingView(rootView: AcknowledgmentsView())
         super.init(window: window)
         window.delegate = self
+        installHostingViewIfNeeded()
     }
 
     @available(*, unavailable)
@@ -2372,9 +2422,19 @@ private final class AcknowledgmentsWindowController: NSWindowController, NSWindo
         fatalError("init(coder:) has not been implemented")
     }
 
+    private func installHostingViewIfNeeded() {
+        if window?.contentView is NSHostingView<AcknowledgmentsView> { return }
+        window?.contentView = NSHostingView(rootView: AcknowledgmentsView())
+    }
+
     func show() {
+        installHostingViewIfNeeded()
         guard let window else { return }
         window.makeKeyAndOrderFront(nil)
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        window?.contentView = NSView()
     }
 }
 
@@ -2492,10 +2552,10 @@ private final class FileExplorerStyleDebugWindowController: NSWindowController, 
         window.isReleasedWhenClosed = false
         window.identifier = NSUserInterfaceItemIdentifier("cmux.fileExplorerStyleDebug")
         window.center()
-        window.contentView = NSHostingView(rootView: FileExplorerStyleDebugView())
         AppDelegate.shared?.applyWindowDecorations(to: window)
         super.init(window: window)
         window.delegate = self
+        installHostingViewIfNeeded()
     }
 
     @available(*, unavailable)
@@ -2503,9 +2563,19 @@ private final class FileExplorerStyleDebugWindowController: NSWindowController, 
         fatalError("init(coder:) has not been implemented")
     }
 
+    private func installHostingViewIfNeeded() {
+        if window?.contentView is NSHostingView<FileExplorerStyleDebugView> { return }
+        window?.contentView = NSHostingView(rootView: FileExplorerStyleDebugView())
+    }
+
     func show() {
+        installHostingViewIfNeeded()
         window?.center()
         window?.makeKeyAndOrderFront(nil)
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        window?.contentView = NSView()
     }
 }
 
@@ -2526,10 +2596,10 @@ private final class SidebarDebugWindowController: NSWindowController, NSWindowDe
         window.isReleasedWhenClosed = false
         window.identifier = NSUserInterfaceItemIdentifier("cmux.sidebarDebug")
         window.center()
-        window.contentView = NSHostingView(rootView: SidebarDebugView())
         AppDelegate.shared?.applyWindowDecorations(to: window)
         super.init(window: window)
         window.delegate = self
+        installHostingViewIfNeeded()
     }
 
     @available(*, unavailable)
@@ -2537,9 +2607,19 @@ private final class SidebarDebugWindowController: NSWindowController, NSWindowDe
         fatalError("init(coder:) has not been implemented")
     }
 
+    private func installHostingViewIfNeeded() {
+        if window?.contentView is NSHostingView<SidebarDebugView> { return }
+        window?.contentView = NSHostingView(rootView: SidebarDebugView())
+    }
+
     func show() {
+        installHostingViewIfNeeded()
         window?.center()
         window?.makeKeyAndOrderFront(nil)
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        window?.contentView = NSView()
     }
 }
 
@@ -2883,10 +2963,10 @@ private final class MenuBarExtraDebugWindowController: NSWindowController, NSWin
         window.isReleasedWhenClosed = false
         window.identifier = NSUserInterfaceItemIdentifier("cmux.menubarDebug")
         window.center()
-        window.contentView = NSHostingView(rootView: MenuBarExtraDebugView())
         AppDelegate.shared?.applyWindowDecorations(to: window)
         super.init(window: window)
         window.delegate = self
+        installHostingViewIfNeeded()
     }
 
     @available(*, unavailable)
@@ -2894,9 +2974,19 @@ private final class MenuBarExtraDebugWindowController: NSWindowController, NSWin
         fatalError("init(coder:) has not been implemented")
     }
 
+    private func installHostingViewIfNeeded() {
+        if window?.contentView is NSHostingView<MenuBarExtraDebugView> { return }
+        window?.contentView = NSHostingView(rootView: MenuBarExtraDebugView())
+    }
+
     func show() {
+        installHostingViewIfNeeded()
         window?.center()
         window?.makeKeyAndOrderFront(nil)
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        window?.contentView = NSView()
     }
 }
 
@@ -3053,18 +3143,28 @@ private final class SplitButtonLayoutDebugWindowController: NSWindowController, 
         window.isReleasedWhenClosed = false
         window.identifier = NSUserInterfaceItemIdentifier("cmux.splitButtonLayoutDebug")
         window.center()
-        window.contentView = NSHostingView(rootView: SplitButtonLayoutDebugView())
         AppDelegate.shared?.applyWindowDecorations(to: window)
         super.init(window: window)
         window.delegate = self
+        installHostingViewIfNeeded()
     }
 
     @available(*, unavailable)
     required init?(coder: NSCoder) { fatalError() }
 
+    private func installHostingViewIfNeeded() {
+        if window?.contentView is NSHostingView<SplitButtonLayoutDebugView> { return }
+        window?.contentView = NSHostingView(rootView: SplitButtonLayoutDebugView())
+    }
+
     func show() {
+        installHostingViewIfNeeded()
         window?.center()
         window?.makeKeyAndOrderFront(nil)
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        window?.contentView = NSView()
     }
 }
 
@@ -3131,23 +3231,31 @@ private final class TabBarBackdropLabWindowController: NSWindowController, NSWin
         window.level = .floating
         window.identifier = NSUserInterfaceItemIdentifier("cmux.tabBarBackdropLab")
         window.center()
-
-        let hostingView = NSHostingView(rootView: TabBarBackdropLabView())
-        hostingView.wantsLayer = true
-        hostingView.layer?.backgroundColor = NSColor.clear.cgColor
-        window.contentView = hostingView
-
         super.init(window: window)
         window.delegate = self
+        installHostingViewIfNeeded()
     }
 
     @available(*, unavailable)
     required init?(coder: NSCoder) { fatalError() }
 
+    private func installHostingViewIfNeeded() {
+        if window?.contentView is NSHostingView<TabBarBackdropLabView> { return }
+        let hostingView = NSHostingView(rootView: TabBarBackdropLabView())
+        hostingView.wantsLayer = true
+        hostingView.layer?.backgroundColor = NSColor.clear.cgColor
+        window?.contentView = hostingView
+    }
+
     func show() {
+        installHostingViewIfNeeded()
         window?.center()
         window?.makeKeyAndOrderFront(nil)
         window?.orderFrontRegardless()
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        window?.contentView = NSView()
     }
 }
 
@@ -3767,10 +3875,10 @@ private final class BackgroundDebugWindowController: NSWindowController, NSWindo
         window.isReleasedWhenClosed = false
         window.identifier = NSUserInterfaceItemIdentifier("cmux.backgroundDebug")
         window.center()
-        window.contentView = NSHostingView(rootView: BackgroundDebugView())
         AppDelegate.shared?.applyWindowDecorations(to: window)
         super.init(window: window)
         window.delegate = self
+        installHostingViewIfNeeded()
     }
 
     @available(*, unavailable)
@@ -3778,9 +3886,19 @@ private final class BackgroundDebugWindowController: NSWindowController, NSWindo
         fatalError("init(coder:) has not been implemented")
     }
 
+    private func installHostingViewIfNeeded() {
+        if window?.contentView is NSHostingView<BackgroundDebugView> { return }
+        window?.contentView = NSHostingView(rootView: BackgroundDebugView())
+    }
+
     func show() {
+        installHostingViewIfNeeded()
         window?.center()
         window?.makeKeyAndOrderFront(nil)
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        window?.contentView = NSView()
     }
 }
 
@@ -3918,10 +4036,10 @@ private final class StartupAppearanceDebugWindowController: NSWindowController, 
         window.isReleasedWhenClosed = false
         window.identifier = NSUserInterfaceItemIdentifier("cmux.startupAppearanceDebug")
         window.center()
-        window.contentView = NSHostingView(rootView: StartupAppearanceDebugView())
         AppDelegate.shared?.applyWindowDecorations(to: window)
         super.init(window: window)
         window.delegate = self
+        installHostingViewIfNeeded()
     }
 
     @available(*, unavailable)
@@ -3929,9 +4047,19 @@ private final class StartupAppearanceDebugWindowController: NSWindowController, 
         fatalError("init(coder:) has not been implemented")
     }
 
+    private func installHostingViewIfNeeded() {
+        if window?.contentView is NSHostingView<StartupAppearanceDebugView> { return }
+        window?.contentView = NSHostingView(rootView: StartupAppearanceDebugView())
+    }
+
     func show() {
+        installHostingViewIfNeeded()
         window?.center()
         window?.makeKeyAndOrderFront(nil)
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        window?.contentView = NSView()
     }
 }
 

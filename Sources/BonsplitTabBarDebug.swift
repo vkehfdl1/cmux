@@ -176,18 +176,28 @@ final class BonsplitTabBarDebugWindowController: NSWindowController, NSWindowDel
         window.isReleasedWhenClosed = false
         window.identifier = NSUserInterfaceItemIdentifier("cmux.bonsplitTabBarDebug")
         window.center()
-        window.contentView = NSHostingView(rootView: BonsplitTabBarDebugView())
         AppDelegate.shared?.applyWindowDecorations(to: window)
         super.init(window: window)
         window.delegate = self
+        installHostingViewIfNeeded()
     }
 
     @available(*, unavailable)
     required init?(coder: NSCoder) { fatalError() }
 
+    private func installHostingViewIfNeeded() {
+        if window?.contentView is NSHostingView<BonsplitTabBarDebugView> { return }
+        window?.contentView = NSHostingView(rootView: BonsplitTabBarDebugView())
+    }
+
     func show() {
+        installHostingViewIfNeeded()
         window?.center()
         window?.makeKeyAndOrderFront(nil)
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        window?.contentView = NSView()
     }
 }
 
