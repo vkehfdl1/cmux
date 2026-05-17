@@ -58,7 +58,8 @@ class TerminalController {
     private nonisolated(unsafe) var listenerReadSource: DispatchSourceRead?
     private nonisolated(unsafe) var listenerReadSourceSuspended = false
     private nonisolated(unsafe) var acceptSourceConsecutiveFailures = 0
-    private var clientHandlers: [Int32: Thread] = [:]
+    private nonisolated let clientHandlersLock = NSLock()
+    private nonisolated(unsafe) var clientHandlerSockets: Set<Int32> = []
     private var tabManager: TabManager?
     private nonisolated(unsafe) var accessMode: SocketControlMode = .cmuxOnly
     private nonisolated let myPid = getpid()
@@ -1849,10 +1850,18 @@ class TerminalController {
     }
 
     private nonisolated func spawnClientHandler(socket clientSocket: Int32, peerPid: pid_t?) {
+        clientHandlersLock.lock()
+        clientHandlerSockets.insert(clientSocket)
+        clientHandlersLock.unlock()
         Thread.detachNewThread { [weak self] in
             guard let self else {
                 close(clientSocket)
                 return
+            }
+            defer {
+                self.clientHandlersLock.lock()
+                self.clientHandlerSockets.remove(clientSocket)
+                self.clientHandlersLock.unlock()
             }
             self.handleClient(clientSocket, peerPid: peerPid)
         }
