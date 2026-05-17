@@ -22,15 +22,25 @@ final class FeedPreviewWindowController: NSWindowController, NSWindowDelegate {
         window.isReleasedWhenClosed = false
         self.init(window: window)
         window.delegate = self
-        window.contentView = NSHostingView(rootView: FeedPreviewRootView())
+        installHostingViewIfNeeded()
+    }
+
+    private func installHostingViewIfNeeded() {
+        if window?.contentView is NSHostingView<FeedPreviewRootView> { return }
+        window?.contentView = NSHostingView(rootView: FeedPreviewRootView())
     }
 
     func show() {
+        installHostingViewIfNeeded()
         if window?.isVisible != true {
             window?.center()
         }
         window?.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        window?.contentView = NSView()
     }
 }
 
